@@ -3,6 +3,7 @@ import {Dimensions} from 'react-native';
 const w = Dimensions.get('window').width / 100;
 const h = Dimensions.get('window').height / 100;
 const wh = (w * h) / 10;
+const wg = 0;
 
 //View
 export const Container = styled.SafeAreaView`
