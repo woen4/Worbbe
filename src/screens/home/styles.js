@@ -1,23 +1,21 @@
 import styled from 'styled-components/native';
-import {Dimensions} from 'react-native';
+import {s3, h, w} from '../stylesGlobal';
 
-const w = Dimensions.get('window').width / 100;
-const h = Dimensions.get('window').height / 100;
-const wh = (w * h) / 10;
+const Text = styled.Text`
+  font-family: 'SF Pro Display Bold';
+`;
 
-export const TitleCards = styled.Text`
-  font-size: ${wh * 7}px;
-  font-weight: bold;
+export const TitleCards = styled(Text)`
+  font-size: ${s3}px;
   color: #000054;
-  padding-left: ${w * 2}px;
   padding-bottom: ${h * 1}px;
 `;
 
 export const ImgCard = styled.Image`
   border-radius: 9px;
-  width: ${wh * 38}px;
-  margin: 0px ${w * 2}px 0px ${w * 2}px;
-  height: ${wh * 38}px;
+  width: ${w * 26}px;
+  margin: 0px ${w * 3.5}px 0px ${w * 0}px;
+  height: ${h * 15}px;
 `;
 
 export const ViewImage = styled.View`
@@ -34,5 +32,5 @@ export const ScrollCards = styled.View`
   background-color: #fff;
   height: ${h * 23}px;
   margin: ${h * 2}px ${w * 5}px ${h * 2}px ${w * 5}px;
-  padding-top: ${h * 1}px;
+  padding: ${h * 1}px ${w * 2.5}px 0px ${w * 2.5}px;
 `;

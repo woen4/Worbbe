@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ButtonLigth, TextButtonLigth} from '../../stylesGlobal';
+import {ButtonLight, TextButtonLight} from '../../stylesGlobal';
 import {Divider} from 'react-native-elements';
 import {Dimensions} from 'react-native';
 import {StyleSheet} from 'react-native';
@@ -40,9 +40,9 @@ export default function request({service}) {
       <TextDescription multiline={true} autoCorrect={false}>
         {service.Description}{' '}
       </TextDescription>
-      <ButtonLigth>
-        <TextButtonLigth>Aceitar serviço</TextButtonLigth>
-      </ButtonLigth>
+      <ButtonLight>
+        <TextButtonLight>Aceitar serviço</TextButtonLight>
+      </ButtonLight>
       <ViewPrice style={styles.Value}>
         <Icon name="credit-card" size={22} color="#000084" />
         <TextDetails>${service.Price}</TextDetails>
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
   Divider: {
     height: 2,
     elevation: 1,
-    marginBottom: h * 5,
-    marginTop: h * 2,
+    marginBottom: '4%',
+    marginTop: '3%',
     backgroundColor: '#999',
     width: '100%',
   },

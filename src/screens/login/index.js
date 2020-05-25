@@ -1,23 +1,45 @@
-import React, {useState} from 'react';
+import React from 'react';
 import CheckBox from '@react-native-community/checkbox';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../../assets/LogoWG.png';
-import {} from './styles';
+import google from '../../assets/google.png';
+import LinearGradient from 'react-native-linear-gradient';
+
+import {
+  TitleForm,
+  Logo,
+  LogoGoogle,
+  SmallTextRegister,
+  SmallTextWithMargin,
+  ViewOR,
+  HalfDivider,
+  SmallTextOR,
+  SmallTextFB,
+  SmallTextGG,
+  ViewSocial,
+} from './styles';
+
 import {
   Container,
-  ViewCenter,
-  TextButton,
-  TextButtonLigth,
-  Input,
-  ButtonLigth,
+  TextButtonLight,
+  ButtonLight,
   ViewForm,
-  ButtonTransparent,
+  SmallText,
+  s2,
+  InputWithIcon,
+  ViewInput,
 } from '../stylesGlobal';
 
-import {StyleSheet, View, KeyboardAvoidingView, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 const w = Dimensions.get('window').width / 100;
 const h = Dimensions.get('window').height / 100;
-const wh = (w * h) / 10;
+
 export default function Home({navigation}) {
   Icon.loadFont();
   function handleLogin() {
@@ -25,63 +47,108 @@ export default function Home({navigation}) {
   }
   return (
     <Container>
-      <ViewForm>
-        <Input
-          backgroundColor="rgba(0, 0, 131, 0.5)"
-          placeholderTextColor="#fff"
-          placeholderTextWeigth="bold"
-          autoCorrect={false}
-          autoCompleteType="email"
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          placeholder="Seu email"
-        />
-        <Input
-          backgroundColor="rgba(0, 0, 131, 0.5)"
-          placeholderTextColor="#fff"
-          placeholderTextWeigth="bold"
-          autoCorrect={false}
-          secureTextEntry={true}
-          placeholder="Sua senha"
-        />
+      <KeyboardAvoidingView>
+        <ScrollView>
+          <ViewForm style={{elevation: 10, marginTop: h * 23}}>
+            <TitleForm>LOGIN</TitleForm>
+            <ViewInput>
+              <InputWithIcon
+                backgroundColor="rgba(0, 0, 131, 0.5)"
+                autoCorrect={false}
+                placeholderTextColor="#fff"
+                placeholderTextWeigth="bold"
+                autoCompleteType="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                placeholder="Seu email"
+              />
+              <Icon
+                style={{position: 'absolute', paddingLeft: 10}}
+                name="gmail"
+                size={24}
+                color="#fff"
+              />
+            </ViewInput>
+            <ViewInput>
+              <InputWithIcon
+                backgroundColor="rgba(0, 0, 131, 0.5)"
+                placeholderTextColor="#fff"
+                placeholderTextWeigth="bold"
+                autoCorrect={false}
+                secureTextEntry={true}
+                placeholder="Sua senha"
+              />
+              <Icon
+                style={{position: 'absolute', paddingLeft: 10}}
+                name="lock"
+                size={24}
+                color="#fff"
+              />
+            </ViewInput>
+            <View style={styles.ViewCBox}>
+              <CheckBox
+                tintColors={{true: '#000084', false: '#000084'}}
+                disabled={false}
+              />
+              <SmallText>Prestador de serviço</SmallText>
+            </View>
 
-        <View style={styles.ViewCBox}>
-          <CheckBox
-            tintColors={{true: '#000084', false: '#000084'}}
-            disabled={false}
-          />
-          <TextButtonLigth style={styles.TextCBox}>
-            Prestador de serviço
-          </TextButtonLigth>
-        </View>
+            <ButtonLight onPress={() => handleLogin()}>
+              <TextButtonLight>Login</TextButtonLight>
+            </ButtonLight>
 
-        <ButtonLogin onPress={() => handleLogin()}>
-          <TextButton>Login</TextButton>
-        </ButtonLogin>
-        <ButtonRegister>
-          <TextButtonLigth>Cadastre-se</TextButtonLigth>
-        </ButtonRegister>
-        <ButtonLigth>
-          <TextButtonLigth>
-            <Icon name="google" size={18} color="red" />⠀ Logar com o google
-          </TextButtonLigth>
-        </ButtonLigth>
-        <ButtonTransparent style={{marginTop: 20}}>
-          <TextButtonLigth>Esqueceu sua senha?</TextButtonLigth>
-        </ButtonTransparent>
-      </ViewForm>
+            <SmallTextWithMargin>
+              Não tem uma conta?
+              <SmallTextRegister
+                onPress={handleLogin}
+                style={{color: '#000084', fontSize: s2}}>
+                {' '}
+                Cadastre-se
+              </SmallTextRegister>
+            </SmallTextWithMargin>
+
+            <SmallTextWithMargin>Esqueceu sua senha?</SmallTextWithMargin>
+            <ViewOR>
+              <HalfDivider />
+              <SmallTextOR>OU</SmallTextOR>
+              <HalfDivider />
+            </ViewOR>
+            <ViewSocial>
+              <SmallTextFB>
+                <Icon name="facebook" size={24} color="#fff" />
+              </SmallTextFB>
+              <SmallTextGG>
+                <LogoGoogle style={{resizeMode: 'contain'}} source={google} />
+              </SmallTextGG>
+            </ViewSocial>
+          </ViewForm>
+          <LinearGradient
+            colors={['#000054', '#000074', '#000094']}
+            style={styles.ViewGradient}>
+            <Logo style={{resizeMode: 'contain'}} source={logo} />
+          </LinearGradient>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 }
 const styles = StyleSheet.create({
   ViewCBox: {
     flexDirection: 'row',
-    marginVertical: h * 2.5,
+    marginBottom: h * 4.5,
+    marginTop: h * 1,
+    alignItems: 'center',
   },
-  TextCBox: {
-    fontSize: wh * 5,
-    fontWeight: 'bold',
-    color: '#000054',
-    marginTop: h * 0.5,
+  ViewGradient: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: h * 30,
+    width: '100%',
+    backgroundColor: '#000054',
+    paddingTop: 30,
+    paddingRight: 30,
+    paddingBottom: 80,
+    paddingLeft: 30,
   },
 });

@@ -71,6 +71,12 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Roboto Mono Bold.ttf</string>
+		<string>Roboto Mono Medium.ttf</string>
+		<string>Roboto Mono Regular.ttf</string>
+		<string>SF Pro Display Bold.otf</string>
+		<string>SF Pro Display Italic.otf</string>
+		<string>SF Pro Display Regular.otf</string>
 	</array>
 </dict>
 </plist>

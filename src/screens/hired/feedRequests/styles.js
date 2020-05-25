@@ -1,29 +1,28 @@
 import styled from 'styled-components/native';
-import {Dimensions} from 'react-native';
-const w = Dimensions.get('window').width / 100;
-const h = Dimensions.get('window').height / 100;
-const wh = (w * h) / 10;
+import {s1, s2, s3, s4, s5, h, w} from '../../stylesGlobal';
 
 //View
 export const ViewRequest = styled.View`
-  height: 60%;
   flex: 1;
   align-items: center;
 `;
+
 export const ViewDetails = styled.View`
   height: 5%;
-  width: 91%;
+  width: 90%;
   justify-content: space-between;
-  margin-top: ${h * 7}px;
-  margin-bottom: ${h * 3}px;
+  margin-top: 7%;
+  margin-bottom: 5%;
   flex-direction: row;
 `;
+
 export const ViewUnitDetails = styled.View`
-  width: 25%;
+  width: 33%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
+
 export const ViewPrice = styled(ViewUnitDetails)`
   margin-top: ${h * 3}px;
 `;
@@ -32,20 +31,20 @@ export const ViewPrice = styled(ViewUnitDetails)`
 //Text
 const Text = styled.Text`
   color: #000054;
-  font-weight: bold;
+  font-family: 'SF Pro Display Bold';
 `;
 
 export const TypeService = styled(Text)`
-  font-size: ${wh * 11}px;
+  font-size: ${s5}px;
 `;
 
 export const NameHirer = styled(Text)`
-  font-size: ${wh * 6.5}px;
+  font-size: ${s3}px;
   margin-top: ${h * 4}px;
 `;
 
 export const TextDetails = styled(Text)`
-  font-size: 18px;
+  font-size: ${s2}px;
   margin-left: 5px;
 `;
 //
@@ -62,10 +61,13 @@ export const PhotoHirer = styled.Image`
 
 //TextInput
 export const TextDescription = styled.Text`
-  height: 15%;
+  height: ${h * 12}px;
   width: 85%;
-  margin: ${h * 1}px 0px ${h * 4}px 0px;
-  padding-left: 5px;
+  font-family: 'SF Pro Display Medium';
+  font-size: ${s1 - 2}px;
+  margin: 1% 0px 7% 0px;
+  padding: 0.5% 1.5% 0px 1.5%;
+  text-align: justify;
   border-radius: 4px;
   border-width: 0.2px;
   border-color: #000084;
