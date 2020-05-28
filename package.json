@@ -10,7 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/checkbox": "^0.3.0",
+    "@react-native-community/datetimepicker": "^2.4.0",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/picker": "^1.6.1",
+    "@react-navigation/native": "^5.4.3",
+    "@react-navigation/stack": "^5.4.0",
     "@unform/core": "^2.1.0",
     "@unform/mobile": "^2.1.0",
     "react": "16.11.0",
@@ -20,7 +24,12 @@
     "react-native-gifted-chat": "^0.16.1",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^11.5.6",
+    "react-native-modal-datetime-picker": "^8.7.0",
     "react-native-paper": "^3.10.1",
+    "react-native-reanimated": "^1.9.0",
+    "react-native-safe-area-context": "^2.0.0",
+    "react-native-screens": "^2.8.0",
+    "react-native-snap-carousel": "^3.9.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.3.9",
     "styled-components": "^5.1.0"

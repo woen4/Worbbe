@@ -1,11 +1,14 @@
 import React from 'react';
-import Routes from './src/routes';
+import Routes from './src/routes/routesManager';
 import {Provider as PaperProvider} from 'react-native-paper';
+import {NavigationContainer} from '@react-navigation/native';
 
 export default function App() {
   return (
     <PaperProvider>
-      <Routes />
+      <NavigationContainer>
+        <Routes />
+      </NavigationContainer>
     </PaperProvider>
   );
 }
