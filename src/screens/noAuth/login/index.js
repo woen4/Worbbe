@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
-import Modal from 'react-native-modal';
-import Icon2 from 'react-native-vector-icons/Ionicons';
+import React, {useRef, useContext} from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../../../assets/LogoWG.png';
 import google from '../../../assets/google.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {Form} from '@unform/mobile';
+import * as Animatable from 'react-native-animatable';
 import Input from '../../unform/input';
-
+import {validateLogin} from '../../../backend/validations';
+import ToastDefault from '../../toasts';
+import AuthContext from '../../../contexts/authContext';
 import {
   TitleForm,
   Logo,
@@ -16,84 +18,76 @@ import {
   ViewOR,
   HalfDivider,
   SmallTextOR,
-  IconFB,
-  SmallTextGG,
   ViewSocial,
+  ButtonLogin,
+  ButtonLoginSocial,
 } from './styles';
 
 import {
   Container,
   TextButtonLight,
-  ButtonLight,
   ViewForm,
-  SmallText,
   s2,
   ViewInput,
   h,
-  w,
   IosIconInput,
-  ButtonIcon,
-  ViewModal,
-  ButtonModal,
-  TextButtonModal,
 } from '../../stylesShared';
 
 import {
   StyleSheet,
-  View,
   KeyboardAvoidingView,
   ScrollView,
   Alert,
 } from 'react-native';
 
 export default function Home({navigation}) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [hiredCheck, setHiredCheck] = useState(false);
-  const [iconCheck, seticonCheck] = useState('ios-radio-button-off');
+  const {signed, fillContext} = useContext(AuthContext);
+  const isClient = true;
+  const formRef = useRef(null);
 
-  function managerModal() {
-    setModalVisible(!modalVisible);
-  }
-  function closeModal() {
-    setModalVisible(false);
-  }
-
-  function handleHiredCheck() {
-    setHiredCheck(!hiredCheck);
-    hiredCheck
-      ? seticonCheck('ios-radio-button-off')
-      : seticonCheck('ios-checkmark-circle-outline');
-  }
-
-  function handleLogin() {
-    hiredCheck
-      ? navigation.navigate('FeedRequests')
-      : navigation.navigate('HomeHirer');
-  }
-
-  function navigateInModal() {
-    managerModal();
-    navigation.navigate('RegisterHirer');
-  }
-
-  const alertConfirmation = () =>
+  const alertAttention = () =>
     Alert.alert(
-      '',
-      'Realizar cadastro como:',
+      'Atenção',
+      'Você profissional irá solicitar o cadastro em nossa plataforma, e após isso entraremos em contato via telefone para a validação de suas habilidades como profissional e requisição de outros dados. Aguarde ser validado para fazer login em nossa plataforma.',
       [
         {
-          text: 'Profissional',
-          onPress: () => navigation.navigate('RegisterHired'),
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('Register', {});
+          },
         },
-        {
-          text: 'Cliente',
-          onPress: () => navigation.navigate('RegisterHirer'),
-          style: 'cancel',
-        },
-        ,
       ],
       {cancelable: true},
     );
+  const alertConfirmation = () =>
+    Alert.alert(
+      'Realizar cadastro como:',
+      '',
+      [
+        {
+          text: 'Profissional',
+          onPress: () => {
+            alertAttention();
+          },
+        },
+        {
+          text: 'Cliente',
+          onPress: () => {
+            navigation.navigate('Register', {isClient});
+          },
+        },
+      ],
+      {cancelable: true},
+    );
+
+  async function handleLogin(data) {
+    if (validateLogin(data) === true) {
+      let response = await fillContext(data);
+      ToastDefault(response);
+    } else {
+      ToastDefault(validateLogin(data));
+    }
+  }
 
   return (
     <Container>
@@ -101,8 +95,7 @@ export default function Home({navigation}) {
         <ScrollView>
           <ViewForm style={{elevation: 10, marginTop: h * 23}}>
             <TitleForm>LOGIN</TitleForm>
-
-            <Form>
+            <Form ref={formRef} onSubmit={handleLogin}>
               <ViewInput>
                 <Input
                   style={styles.input}
@@ -132,16 +125,10 @@ export default function Home({navigation}) {
                 <IosIconInput name="ios-lock" size={28} color="#fff" />
               </ViewInput>
             </Form>
-            <View style={styles.ViewCBox}>
-              <ButtonIcon onPress={handleHiredCheck}>
-                <Icon2 name={iconCheck} size={24} color="#000084" />
-              </ButtonIcon>
-              <SmallText>Prestador de serviço</SmallText>
-            </View>
 
-            <ButtonLight onPress={handleLogin}>
+            <ButtonLogin onPress={() => formRef.current.submitForm()}>
               <TextButtonLight>Login</TextButtonLight>
-            </ButtonLight>
+            </ButtonLogin>
 
             <SmallTextWithMargin>
               Não tem uma conta?
@@ -156,16 +143,19 @@ export default function Home({navigation}) {
             <SmallTextWithMargin>Esqueceu sua senha?</SmallTextWithMargin>
             <ViewOR>
               <HalfDivider />
-              <SmallTextOR style={{textAlignVertical: 'center'}}>
-                OU
-              </SmallTextOR>
+              <ButtonLoginSocial>
+                <SmallTextOR>OU</SmallTextOR>
+              </ButtonLoginSocial>
               <HalfDivider />
             </ViewOR>
             <ViewSocial>
-              <IconFB name="facebook" size={24} color="#101099" />
-              <SmallTextGG>
+              <ButtonLoginSocial>
+                <Icon name="facebook" size={24} color="#101099" />
+              </ButtonLoginSocial>
+
+              <ButtonLoginSocial>
                 <LogoGoogle style={{resizeMode: 'contain'}} source={google} />
-              </SmallTextGG>
+              </ButtonLoginSocial>
             </ViewSocial>
           </ViewForm>
           <LinearGradient
@@ -179,12 +169,6 @@ export default function Home({navigation}) {
   );
 }
 const styles = StyleSheet.create({
-  ViewCBox: {
-    flexDirection: 'row',
-    marginBottom: h * 4.5,
-    marginTop: h * 1,
-    alignItems: 'center',
-  },
   ViewGradient: {
     position: 'absolute',
     alignItems: 'center',

@@ -1,20 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Icon2 from 'react-native-vector-icons/FontAwesome5';
-import {Menu} from 'react-native-paper';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import foto from '../../../../assets/foto.jpg';
 import Request from './request';
+import AuthContext from '../../../../contexts/authContext';
 import {
   Container,
   ButtonFloat,
   TitleHeader,
   Header,
+  MenuContainer,
+  TextItemMenu,
+  ItemMenu,
+  DividerMenu,
+  ButtonIcon,
+  MenuContainerLeft,
 } from '../../../stylesShared';
 
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 
 export default function FeedRequests({navigation}) {
-  const ExamplePosts = [
+  let ExamplePosts = [
     {
       id: '123',
       Type: 'Limpeza',
@@ -52,88 +58,87 @@ export default function FeedRequests({navigation}) {
       Price: '50,00',
     },
   ];
+  const {user} = useContext(AuthContext);
+  console.log(user);
+  const [menu, setMenu] = useState(null);
+  const [funnel, setFunnel] = useState(null);
 
-  let [menuVisible, setMenuVisible] = useState(false);
-  let [menuFunnelVisible, setMenuFunnelVisible] = useState(false);
+  function closeMenus() {
+    setMenu();
+    setFunnel();
+  }
+
+  function renderMenu() {
+    setMenu(
+      <MenuContainer animation="bounceInRight" duration={900}>
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('ProfileHired');
+          }}>
+          <Icon name="ios-contact" size={26} color="#000054" />
+          <TextItemMenu>Perfil</TextItemMenu>
+        </ItemMenu>
+        <DividerMenu />
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('Help');
+          }}>
+          <Icon name="ios-help" size={40} color="#000054" />
+          <TextItemMenu>Ajuda</TextItemMenu>
+        </ItemMenu>
+      </MenuContainer>,
+    );
+  }
+
+  function renderMenuFunnel() {
+    setMenu(
+      <MenuContainerLeft animation="bounceInLeft" duration={900}>
+        <ItemMenu>
+          <TextItemMenu>Filtrar por:</TextItemMenu>
+        </ItemMenu>
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('ProfileHired');
+          }}>
+          <Icon2 name="map-marker-distance" size={26} color="#000054" />
+          <TextItemMenu>Proximidade</TextItemMenu>
+        </ItemMenu>
+        <DividerMenu />
+        <ItemMenu onPress={() => {}}>
+          <Icon2 name="alert-decagram-outline" size={27} color="#000054" />
+          <TextItemMenu>Urgência</TextItemMenu>
+        </ItemMenu>
+      </MenuContainerLeft>,
+    );
+  }
 
   return (
-    <Container>
+    <>
       <Header>
-        <Menu
-          visible={menuFunnelVisible}
-          onDismiss={() => setMenuFunnelVisible(!menuFunnelVisible)}
-          contentStyle={styles.ContentMenu}
-          anchor={
-            <Icon
-              onPress={() => setMenuFunnelVisible(!menuFunnelVisible)}
-              style={{marginLeft: 5}}
-              name="md-funnel"
-              size={25}
-              color="#000084"
-            />
-          }>
-          <Menu.Item title="Filtro por:" titleStyle={styles.TextMenu} />
-          <Menu.Item title="Perfil" icon="star" titleStyle={styles.TextMenu} />
-
-          <Menu.Item
-            title="Proximidade"
-            titleStyle={styles.TextMenu}
-            icon="map-marker-distance"
-          />
-        </Menu>
+        <ButtonIcon onPress={renderMenuFunnel}>
+          <Icon name="md-funnel" size={26} color="#000084" />
+        </ButtonIcon>
         <TitleHeader>WorkGrid</TitleHeader>
-        <Menu
-          visible={menuVisible}
-          onDismiss={() => setMenuVisible(!menuVisible)}
-          contentStyle={styles.ContentMenu}
-          anchor={
-            <Icon
-              onPress={() => setMenuVisible(!menuVisible)}
-              style={{marginRight: 5}}
-              name="ios-more"
-              size={29}
-              color="#000084"
-            />
-          }>
-          <Menu.Item
-            onPress={() => {
-              navigation.navigate('ProfileHired');
-              setMenuVisible(false);
-            }}
-            title="Perfil"
-            icon="account-details"
-            titleStyle={styles.TextMenu}
-          />
-
-          <Menu.Item
-            onPress={() => {
-              navigation.navigate('Help');
-              setMenuVisible(false);
-            }}
-            title="Ajuda"
-            titleStyle={styles.TextMenu}
-            icon="help-circle-outline"
-          />
-        </Menu>
+        <ButtonIcon onPress={renderMenu}>
+          <Icon name="ios-more" size={29} color="#000084" />
+        </ButtonIcon>
       </Header>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={ExamplePosts}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => <Request service={item} />}
-      />
 
-      <ButtonFloat
-        onPress={() => navigation.navigate('ListServices')}
-        style={{elevation: 8}}>
-        <Icon2 name="tasks" size={32} color="#000084" />
-      </ButtonFloat>
-    </Container>
+      <Container onTouchEnd={closeMenus}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={ExamplePosts}
+          keyExtractor={(item) => item.id}
+          renderItem={({item}) => <Request service={item} />}
+        />
+
+        <ButtonFloat
+          onPress={() => navigation.navigate('ListServices')}
+          style={{elevation: 8}}>
+          <Icon name="ios-list" size={34} color="#000084" />
+        </ButtonFloat>
+        {menu}
+      </Container>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  TextMenu: {
-    fontFamily: 'SF Pro Display Bold',
-  },
-});

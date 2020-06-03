@@ -1,4 +1,8 @@
 {
   "name": "WorkGrid",
-  "displayName": "WorkGrid"
+  "displayName": "WorkGrid",
+  "android": {
+    "package": "com.workgrid.workgrid",
+    "versionCode": 1
+  }
 }

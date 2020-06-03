@@ -1,18 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import service from '../../../../assets/service.jpeg';
 import foto from '../../../../assets/foto.jpg';
 import Carousel from 'react-native-snap-carousel';
-import {Menu} from 'react-native-paper';
 import Service from '../../components/unitService/index';
 import {
   TitleHeader,
   Header,
   Container,
   w,
+  MenuContainer,
   ButtonIcon,
+  ItemMenu,
+  TextItemMenu,
+  DividerMenu,
 } from '../../../stylesShared';
-import {StyleSheet, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {
   ViewCarousel,
   ImageCarousel,
@@ -24,8 +27,6 @@ import {
 } from './styles';
 
 export default function HomeHirer({navigation}) {
-  let [menuVisible, setMenuVisible] = useState(false);
-
   let ExampleServices = [
     {
       id: '123',
@@ -152,6 +153,38 @@ export default function HomeHirer({navigation}) {
     },
   ];
 
+  let [menu, setMenu] = useState(null);
+
+  function renderMenu() {
+    setMenu(
+      <MenuContainer animation="bounceInRight" duration={900}>
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('ProfileHirer');
+          }}>
+          <Icon name="ios-contact" size={26} color="#000054" />
+          <TextItemMenu>Perfil</TextItemMenu>
+        </ItemMenu>
+        <DividerMenu />
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('Addresses');
+          }}>
+          <Icon name="md-pin" size={26} color="#000054" />
+          <TextItemMenu>Endereços</TextItemMenu>
+        </ItemMenu>
+        <DividerMenu />
+        <ItemMenu
+          onPress={() => {
+            navigation.navigate('Help');
+          }}>
+          <Icon name="ios-help" size={40} color="#000054" />
+          <TextItemMenu>Ajuda</TextItemMenu>
+        </ItemMenu>
+      </MenuContainer>,
+    );
+  }
+
   function HeaderComponentFlatList() {
     function renderItem({item}) {
       return (
@@ -163,54 +196,6 @@ export default function HomeHirer({navigation}) {
     }
     return (
       <>
-        <Header>
-          <ButtonIcon onPress={() => navigation.navigate('AddService')}>
-            <Icon name="md-add-circle-outline" size={26} color="#000084" />
-          </ButtonIcon>
-          <TitleHeader>WorkGrid</TitleHeader>
-          <Menu
-            visible={menuVisible}
-            onDismiss={() => setMenuVisible(!menuVisible)}
-            contentStyle={styles.ContentMenu}
-            anchor={
-              <Icon
-                onPress={() => setMenuVisible(!menuVisible)}
-                style={{marginRight: 5}}
-                name="ios-more"
-                size={29}
-                color="#000084"
-              />
-            }>
-            <Menu.Item
-              onPress={() => {
-                navigation.navigate('ProfileHirer');
-                setMenuVisible(false);
-              }}
-              title="Perfil"
-              icon="account-details"
-              titleStyle={styles.TextMenu}
-            />
-
-            <Menu.Item
-              onPress={() => {
-                navigation.navigate('Help');
-                setMenuVisible(false);
-              }}
-              title="Suporte"
-              titleStyle={styles.TextMenu}
-              icon="help-circle-outline"
-            />
-            <Menu.Item
-              onPress={() => {
-                navigation.navigate('Addresses');
-                setMenuVisible(false);
-              }}
-              title="Endereços"
-              titleStyle={styles.TextMenu}
-              icon="map-marker-multiple"
-            />
-          </Menu>
-        </Header>
         <TitleCarousel>Mais populares:</TitleCarousel>
         <ViewCarousel>
           <Carousel
@@ -228,28 +213,35 @@ export default function HomeHirer({navigation}) {
   }
 
   return (
-    <Container>
-      <ViewListServices>
-        <FlatList
-          ListHeaderComponent={HeaderComponentFlatList()}
-          showsVerticalScrollIndicator={false}
-          data={ExampleServices}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) => (
-            <Service
-              nameResponsible={item.NameHirer}
-              service={item}
-              icon="chat"
-            />
-          )}
-        />
-      </ViewListServices>
-    </Container>
+    <>
+      <Header>
+        <ButtonIcon onPress={() => navigation.navigate('AddService')}>
+          <Icon name="md-add-circle-outline" size={26} color="#000084" />
+        </ButtonIcon>
+        <TitleHeader>WorkGrid</TitleHeader>
+        <ButtonIcon onPress={renderMenu}>
+          <Icon name="ios-more" size={29} color="#000084" />
+        </ButtonIcon>
+      </Header>
+
+      <Container onTouchEnd={menu ? () => setMenu() : () => {}}>
+        <ViewListServices>
+          <FlatList
+            ListHeaderComponent={HeaderComponentFlatList()}
+            showsVerticalScrollIndicator={false}
+            data={ExampleServices}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => (
+              <Service
+                nameResponsible={item.NameHirer}
+                service={item}
+                icon="chat"
+              />
+            )}
+          />
+        </ViewListServices>
+        {menu}
+      </Container>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  TextMenu: {
-    fontFamily: 'SF Pro Display Bold',
-  },
-});

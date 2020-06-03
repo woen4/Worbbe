@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "835707382036",
+    "firebase_url": "https://workgrid-dce94.firebaseio.com",
+    "project_id": "workgrid-dce94",
+    "storage_bucket": "workgrid-dce94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835707382036:android:48c2207414814b433f3a01",
+        "android_client_info": {
+          "package_name": "com.workgrid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835707382036-v44qgob535ppqlph8djd25fkau5uh1o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7iYVq-GyDQ-8kGqAhmApZd2qB9ntLUlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835707382036-v44qgob535ppqlph8djd25fkau5uh1o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

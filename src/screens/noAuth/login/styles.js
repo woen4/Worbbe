@@ -1,6 +1,14 @@
 import styled from 'styled-components/native';
-import {TextButtonLight, SmallText, s3, s2, h, w, wh} from '../../stylesShared';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  TextButtonLight,
+  SmallText,
+  s3,
+  s2,
+  h,
+  w,
+  wh,
+  ButtonLight,
+} from '../../stylesShared';
 export const Logo = styled.Image`
   flex: 1;
 `;
@@ -26,36 +34,18 @@ export const SmallTextWithMargin = styled(SmallText)`
   margin-top: 6%;
 `;
 
-export const SmallTextOR = styled(SmallText)`
-  border-width: 2px;
-  width: ${wh * 9}px;
-
-  height: ${wh * 9}px;
-  text-align: center;
-  border-radius: 50px;
-  border-color: rgba(0, 0, 94, 0.4);
-`;
-
-export const IconFB = styled(Icon)`
+export const ButtonLoginSocial = styled.TouchableOpacity`
   border-width: 2px;
   width: ${wh * 9}px;
   height: ${wh * 9}px;
-  border-radius: 50px;
-  border-color: rgba(0, 0, 94, 0.4);
-  padding-left: 3.5%;
-  padding-top: 3%;
-`;
-
-export const SmallTextGG = styled.View`
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: rgba(0, 0, 94, 0.4);
-  background-color: #fff;
-  color: #fff;
-  justify-content: center;
   align-items: center;
-  width: ${wh * 9}px;
-  height: ${wh * 9}px;
+  justify-content: center;
+  border-radius: 50px;
+  border-color: rgba(0, 0, 94, 0.4);
+`;
+
+export const SmallTextOR = styled(SmallText)`
+  text-align: center;
 `;
 
 export const ViewOR = styled.View`
@@ -69,7 +59,7 @@ export const ViewOR = styled.View`
 
 export const ViewSocial = styled(ViewOR)`
   margin-top: 3%;
-  margin-bottom: 10%;
+  margin-bottom: 2%;
   justify-content: space-around;
 `;
 
@@ -79,4 +69,8 @@ export const HalfDivider = styled.View`
   margin-right: 5%;
   background-color: rgba(0, 0, 94, 0.4);
   height: 3%;
+`;
+
+export const ButtonLogin = styled(ButtonLight)`
+  margin-top: 7%;
 `;

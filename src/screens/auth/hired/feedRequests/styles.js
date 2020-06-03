@@ -72,3 +72,12 @@ export const TextDescription = styled.Text`
   border-width: 0.2px;
   border-color: #000084;
 `;
+
+export const Divider = styled.View`
+  height: ${h * 0.2}px;
+  elevation: 1;
+  margin-bottom: 4%;
+  margin-top: 3%;
+  background-color: #999;
+  width: 100%;
+`;

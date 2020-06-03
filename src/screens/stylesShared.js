@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
+import * as Animatable from 'react-native-animatable';
 export const w = Dimensions.get('window').width / 100;
 export const h = Dimensions.get('window').height / 100;
 export const wh = ((w * h) / 10) * 1.618;
@@ -92,6 +93,7 @@ export const LabelInput = styled(Text)`
 export const Button = styled.TouchableOpacity`
   background-color: #000084;
   height: ${h * 6}px;
+  max-height: 40px;
   width: 90%;
   border-radius: 40px;
   align-items: center;
@@ -105,8 +107,8 @@ export const ButtonLight = styled(Button)`
 `;
 
 export const ButtonFloat = styled.TouchableOpacity`
-  height: 60px;
-  width: 60px;
+  height: ${wh * 11}px;
+  width: ${wh * 11}px;
   border-radius: 100px;
   background-color: #fff;
   position: absolute;
@@ -175,4 +177,57 @@ export const MaterialIconInput = styled(Icon2)`
   position: absolute;
   padding-left: ${w * 2.5}px;
   padding-bottom: ${h * 2}px;
+`;
+
+export const MenuContainer = styled(Animatable.View)`
+  background-color: #fff;
+  border-radius: 8px;
+  elevation: 10;
+  border-color: #999;
+  flex: 1;
+  border-width: 2px;
+  width: 45%;
+  top: -1%;
+  right: 1%;
+  position: absolute;
+`;
+
+export const MenuContainerLeft = styled(Animatable.View)`
+  background-color: #fff;
+  border-radius: 8px;
+  elevation: 10;
+  border-color: #999;
+  flex: 1;
+  border-width: 2px;
+  width: 50%;
+  top: -1%;
+  left: 1%;
+  position: absolute;
+`;
+
+export const ItemMenu = styled.TouchableOpacity`
+  align-items: center;
+  padding-right: 15%;
+  border-radius: 8px;
+  flex-direction: row;
+  padding-left: 10%;
+  height: ${h * 5}px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  background-color: #fff;
+  justify-content: space-between;
+`;
+
+export const TextItemMenu = styled(Text)`
+  color: #000054;
+  width: 76%;
+  font-size: ${s1 + 3}px;
+`;
+
+export const DividerMenu = styled.View`
+  background-color: #999;
+  height: 1px;
+  margin-left: 5%;
+  margin-right: 5%;
+  elevation: 1;
 `;

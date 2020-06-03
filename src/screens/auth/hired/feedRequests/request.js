@@ -2,8 +2,6 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import {ButtonLight, TextButtonLight} from '../../../stylesShared';
-import {Divider} from 'react-native-elements';
-import {StyleSheet} from 'react-native';
 import {
   ViewRequest,
   ViewDetails,
@@ -14,6 +12,7 @@ import {
   TextDetails,
   ViewPrice,
   TextDescription,
+  Divider,
 } from './styles';
 
 export default function request({service}) {
@@ -42,22 +41,11 @@ export default function request({service}) {
       <ButtonLight>
         <TextButtonLight>Aceitar serviço</TextButtonLight>
       </ButtonLight>
-      <ViewPrice style={styles.Value}>
+      <ViewPrice>
         <Icon2 name="money-bill-wave" size={22} color="#000084" />
         <TextDetails>${service.Price}</TextDetails>
       </ViewPrice>
-      <Divider style={styles.Divider} />
+      <Divider />
     </ViewRequest>
   );
 }
-
-const styles = StyleSheet.create({
-  Divider: {
-    height: 2,
-    elevation: 1,
-    marginBottom: '4%',
-    marginTop: '3%',
-    backgroundColor: '#999',
-    width: '100%',
-  },
-});

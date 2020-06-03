@@ -134,7 +134,9 @@ export default function AddService({navigation}) {
                 <Picker.Item label="Trabalho" value="Trabalho" />
               </Picker>
             </PickerLocal>
-            <ButtonIcon style={styles.icon}>
+            <ButtonIcon
+              onPress={() => navigation.navigate('AddAddressMap')}
+              style={styles.icon}>
               <Icon2 name="map-marker-plus" size={27} color="#000054" />
             </ButtonIcon>
           </ViewPickerLocal>
@@ -163,6 +165,7 @@ export default function AddService({navigation}) {
               <Icon2 name="currency-usd" size={27} color="#000054" />
               <Form>
                 <Input
+                  placeholderTextColor="#999"
                   placeholder="00,00"
                   style={styles.inputPrice}
                   name="Price"
