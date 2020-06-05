@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {w, h, s1} from '../../stylesShared';
+import {w, h, wh, s1, ViewCenter, PhotoProfile} from '../../stylesShared';
 
 export const ViewDateTime = styled.View`
   width: 45%;
@@ -10,6 +10,7 @@ export const ViewDateTime = styled.View`
   justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
+  elevation: 10;
 `;
 
 export const SuportDateTime = styled.View`
@@ -50,18 +51,29 @@ export const TextDescription = styled.Text`
   border-color: #000084;
 `;
 
-export const MarginPhoto = styled.View`
-  height: ${w * 36}px;
-  width: ${w * 36}px;
-  background-color: transparent;
-  border-radius: 120px;
-  margin-top: 5%;
-  border-width: 2.5px;
-  border-color: #000054;
+const MarginPhoto = styled.View`
+  height: ${wh * 27}px;
+  width: ${wh * 27}px;
+  background-color: #000054;
+  border-radius: 70px;
+  padding: 1.5% 1.5% 1.5% 1.5%;
 `;
 
-export const PhotoHired = styled.Image`
-  width: 100%;
-  height: 100%;
-  border-radius: 120px;
+export const ViewPhotos = styled(ViewCenter)`
+  flex-direction: row;
+  height: ${h * 21}px;
+`;
+
+export const MarginPhotoClient = styled(MarginPhoto)`
+  position: absolute;
+  top: -40%;
+  right: ${-3 * w}px;
+  padding-right: 0px;
+`;
+
+export const MarginPhotoServer = styled(MarginPhoto)`
+  position: absolute;
+  top: -40%;
+  padding-left: 0px;
+  left: ${-3 * w}px;
 `;

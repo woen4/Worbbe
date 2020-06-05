@@ -1,8 +1,9 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Input from '../../unform/input';
+import InputSimple from '../../unform/inputSimple';
 import {Form} from '@unform/mobile';
 import foto from '../../../assets/foto.jpg';
+import FastImage from 'react-native-fast-image';
 import {
   Container,
   ButtonIcon,
@@ -11,7 +12,7 @@ import {
   SmallText,
   MediumText,
   w,
-  ViewCenter,
+  PhotoProfile,
 } from '../../stylesShared';
 import {
   ContainerDetails,
@@ -20,10 +21,11 @@ import {
   ViewDateTime,
   SuportDateTime,
   TextDescription,
-  MarginPhoto,
-  PhotoHired,
+  ViewPhotos,
+  MarginPhotoClient,
+  MarginPhotoServer,
 } from './styles';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 
 export default function DetailsService({navigation}) {
   return (
@@ -41,45 +43,78 @@ export default function DetailsService({navigation}) {
         <ContainerDetails>
           <MediumText>Limpeza pós-obra</MediumText>
           <SmallText>Domésticos > Limpeza</SmallText>
-          <ViewCenter>
-            <MarginPhoto>
-              <PhotoHired style={{resizeMode: 'contain'}} source={foto} />
-            </MarginPhoto>
-          </ViewCenter>
+          <ViewPhotos>
+            <View>
+              <MarginPhotoClient>
+                <PhotoProfile
+                  source={{
+                    uri:
+                      'https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg',
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </MarginPhotoClient>
+            </View>
+            <View>
+              <MarginPhotoServer>
+                <PhotoProfile
+                  source={{
+                    uri:
+                      'https://ocomecodafelicidade.com/wp-content/uploads/2018/12/como-parecer-uma-pessoa-bem-sucedida.jpg',
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </MarginPhotoServer>
+            </View>
+          </ViewPhotos>
           <Form>
             <ViewInput>
               <SmallText>Nome do cliente:</SmallText>
-              <Input style={styles.input} name="complement">
+              <InputSimple
+                editable={false}
+                style={styles.input}
+                name="complement">
                 Luiz Eduardo
-              </Input>
+              </InputSimple>
             </ViewInput>
             <ViewInput>
               <SmallText>Nome do profissional:</SmallText>
-              <Input style={styles.input} name="complement">
+              <InputSimple
+                editable={false}
+                style={styles.input}
+                name="complement">
                 Kaio Woen
-              </Input>
+              </InputSimple>
             </ViewInput>
             <ViewRow>
               <ViewInput>
                 <SmallText>Local:</SmallText>
-                <Input style={styles.inputReference} name="complement">
+                <InputSimple
+                  editable={false}
+                  style={styles.inputReference}
+                  name="complement">
                   Rua Ângelo Quadros, 619
-                </Input>
+                </InputSimple>
               </ViewInput>
               <ViewInput>
                 <SmallText>Preço:</SmallText>
-                <Input
+                <InputSimple
                   style={styles.inputNumber}
                   editable={false}
                   name="complement">
                   Orçamentado
-                </Input>
+                </InputSimple>
               </ViewInput>
             </ViewRow>
           </Form>
           <ViewInput>
             <SmallText>Descrição:</SmallText>
-            <TextDescription multiline={true} autoCorrect={true}>
+            <TextDescription
+              multiline={true}
+              editable={false}
+              autoCorrect={true}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
               blandit magna eget enim pretium, ac facilisis arcu facilisis.
               Curabitur consectetur turpis vel massa eleifend aliquam. Vivamus
@@ -87,11 +122,11 @@ export default function DetailsService({navigation}) {
             </TextDescription>
           </ViewInput>
           <SuportDateTime>
-            <ViewDateTime style={{elevation: 10}}>
+            <ViewDateTime>
               <Icon name="md-calendar" size={27} color="#000054" />
               <MediumText>03/05/20</MediumText>
             </ViewDateTime>
-            <ViewDateTime style={{elevation: 10}}>
+            <ViewDateTime>
               <Icon name="md-time" size={27} color="#000054" />
               <MediumText>15:00 - 17:00</MediumText>
             </ViewDateTime>
@@ -125,23 +160,3 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
 });
-/*
-const alertConfirmation = () =>
-    Alert.alert(
-      '',
-      'Realizar cadastro como:',
-      [
-        {
-          text: 'Profissional',
-          onPress: () => navigation.navigate('RegisterHired'),
-        },
-        {
-          text: 'Cliente',
-          onPress: () => navigation.navigate('RegisterHirer'),
-          style: 'cancel',
-        },
-        ,
-      ],
-      {cancelable: true},
-    );
-*/

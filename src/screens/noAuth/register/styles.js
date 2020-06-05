@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-import {w, h, ButtonIcon, ViewForm, ButtonLight} from '../../stylesShared';
+import {w, h, ButtonLight} from '../../stylesShared';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const MarginPhoto = styled.View`
   height: ${w * 36}px;
@@ -14,37 +15,22 @@ export const MarginPhoto = styled.View`
   justify-content: center;
 `;
 
-export const HeaderProfile = styled.View`
-  justify-content: space-between;
-  flex-direction: row;
-  width: 100%;
-  height: 20%;
-  padding-top: 3.5%;
-  padding-right: 2%;
-  padding-left: 2%;
-`;
-
 export const PhotoHired = styled.Image`
   width: 100%;
   height: 100%;
   border-radius: 120px;
 `;
 
-export const ButtonCamera = styled(ButtonIcon)`
-  position: absolute;
-  bottom: -3%;
-  right: 0%;
-  width: ${w * 9}px;
-  height: ${w * 9}px;
-  border-radius: 55px;
-  background-color: #fff;
-`;
-
-export const ViewFormAdjusted = styled(ViewForm)`
-  margin: 65% ${w * 5}px ${h * 3}px ${w * 5}px;
-`;
-
 export const ButtonRegister = styled(ButtonLight)`
   margin-top: ${h * 4}px;
   margin-bottom: ${h * 1}px;
+`;
+
+export const HeaderGradient = styled(LinearGradient)`
+  align-items: center;
+  height: ${h * 40}px;
+  width: 100%;
+  position: absolute;
+  background-color: #000044;
+  justify-content: flex-start;
 `;

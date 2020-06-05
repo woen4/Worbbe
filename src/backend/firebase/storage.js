@@ -1,7 +1,7 @@
 import storage from '@react-native-firebase/storage';
 
-export async function createFile(collection, baseName, file) {
-  const name = baseName
+export async function createFile(collection, file) {
+  const name = '6AeJCYt1eU0PtSvTfiLZ'
     .split('')
     .sort(() => {
       return 0.5 - Math.random();
@@ -17,4 +17,7 @@ export async function createFile(collection, baseName, file) {
   return data;
 }
 
-export async function deleteFile(reference, file) {}
+export async function deleteFile(collection, name) {
+  const ref = storage().ref(collection + name);
+  await ref.delete();
+}

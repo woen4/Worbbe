@@ -8,9 +8,11 @@ import {
   w,
   wh,
   ButtonLight,
+  ViewForm,
 } from '../../stylesShared';
 export const Logo = styled.Image`
   flex: 1;
+  resize-mode: contain;
 `;
 
 export const LogoGoogle = styled.Image`
@@ -73,4 +75,18 @@ export const HalfDivider = styled.View`
 
 export const ButtonLogin = styled(ButtonLight)`
   margin-top: 7%;
+`;
+
+export const HeaderGradientLogin = styled.View`
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  height: ${h * 30}px;
+  width: 100%;
+  background-color: #000054;
+  padding: 30px 30px 80px 30px;
+`;
+
+export const ViewFormLogin = styled(ViewForm)`
+  margin-top: ${h * 23}px;
 `;

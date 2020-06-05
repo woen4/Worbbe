@@ -22,21 +22,16 @@ export const HeaderProfile = styled.View`
   padding-left: 2%;
 `;
 
-export const PhotoHired = styled.Image`
-  width: 100%;
-  height: 100%;
-  border-radius: 120px;
-`;
-
 export const ViewRating = styled.View`
   width: 35%;
-  height: 17%;
+  height: ${h * 9}px;
   border-width: 1px;
   border-color: #999;
   background-color: #fff;
   border-radius: 8px;
   align-items: center;
-  margin: 4% 0% 4% 0%;
+  margin: 2% 0% 4% 0%;
+  elevation: 10;
 `;
 
 export const ViewLocation = styled.View`

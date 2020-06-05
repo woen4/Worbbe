@@ -20,8 +20,35 @@ export function validateRegister(data) {
     return true;
   }
 }
+
 export function validateLogin(data) {
-  if (data.email == undefined || data.password == undefined) {
+  if (
+    data.email == undefined ||
+    data.password == undefined ||
+    data.email == '' ||
+    data.password == ''
+  ) {
+    return 'Todos os campos devem ser preenchidos';
+  } else {
+    return true;
+  }
+}
+
+export function validateHelp(data) {
+  if (
+    data.title == undefined ||
+    data.description == undefined ||
+    data.title == '' ||
+    data.description == ''
+  ) {
+    return 'Todos os campos devem ser preenchidos';
+  } else {
+    return true;
+  }
+}
+
+export function validateProfile(data) {
+  if (data.name == '' || data.email == '') {
     return 'Todos os campos devem ser preenchidos';
   } else {
     return true;

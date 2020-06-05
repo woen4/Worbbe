@@ -6,62 +6,49 @@ import Input from '../../../unform/input';
 import {
   Container,
   ViewForm,
-  LabelInput,
-  s2,
-  ViewInput,
   ButtonIcon,
   TitleHeaderLight,
   TitleHeader,
-  h,
-  IosIconInput,
-  MaterialIconInput,
+  HeaderGradient,
 } from '../../../stylesShared';
-import LinearGradient from 'react-native-linear-gradient';
+
 import {PhotoHired, ViewRating, MarginPhoto, HeaderProfile} from './styles';
-import {StyleSheet, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 
 export default function ProfileHired({navigation}) {
   return (
     <Container>
-      <ScrollView style={{flex: 1}}>
-        <ViewForm style={{elevation: 10, marginTop: '60%'}}>
-          <ViewRating style={{elevation: 10, height: '27%'}}>
+      <ScrollView>
+        <ViewForm>
+          <ViewRating>
             <TitleHeader>Avaliação</TitleHeader>
             <TitleHeader>
               <Icon name="ios-star" size={27} color="#f90" /> 4.5
             </TitleHeader>
           </ViewRating>
 
-          <Form style={{alignItems: 'center'}}>
-            <LabelInput>Profissão:</LabelInput>
-            <ViewInput>
-              <Input
-                editable={false}
-                style={styles.input}
-                name="name"
-                backgroundColor="rgba(0, 0, 131, 0.5)"
-                autoCorrect={false}>
-                Faxineiro
-              </Input>
-              <MaterialIconInput name="work" size={25} color="#fff" />
-            </ViewInput>
-            <LabelInput>Nome:</LabelInput>
-            <ViewInput>
-              <Input
-                editable={false}
-                style={styles.input}
-                name="name"
-                backgroundColor="rgba(0, 0, 131, 0.5)"
-                autoCorrect={false}>
-                Kaio Woen
-              </Input>
-              <IosIconInput name="ios-contact" size={28} color="#fff" />
-            </ViewInput>
+          <Form>
+            <Input
+              icon="work"
+              iconFamily="Materiall"
+              iconSize={25}
+              label="Profissão:"
+              editable={false}
+              name=""
+              backgroundColor="rgba(0, 0, 131, 0.5)"
+            />
+            <Input
+              icon="ios-contact"
+              iconFamily="Ionicons"
+              iconSize={28}
+              label="Nome:"
+              editable={false}
+              name=""
+              backgroundColor="rgba(0, 0, 131, 0.5)"
+            />
           </Form>
         </ViewForm>
-        <LinearGradient
-          colors={['#000054', '#000074', '#000094']}
-          style={styles.ViewImage}>
+        <HeaderGradient colors={['#000054', '#000074', '#000094']}>
           <HeaderProfile>
             <ButtonIcon onPress={() => navigation.goBack()}>
               <Icon name="ios-arrow-back" size={27} color="#fff" />
@@ -70,32 +57,10 @@ export default function ProfileHired({navigation}) {
             <ButtonIcon />
           </HeaderProfile>
           <MarginPhoto>
-            <PhotoHired style={{resizeMode: 'contain'}} source={foto} />
+            <PhotoHired source={foto} />
           </MarginPhoto>
-        </LinearGradient>
+        </HeaderGradient>
       </ScrollView>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  ViewImage: {
-    alignItems: 'center',
-    height: '55%',
-    width: '100%',
-    position: 'absolute',
-    backgroundColor: '#000044',
-    justifyContent: 'flex-start',
-  },
-  input: {
-    borderRadius: 40,
-    height: h * 6,
-    paddingLeft: 40,
-    width: '92%',
-    color: '#fff',
-    fontSize: s2,
-    marginBottom: '4%',
-    fontFamily: 'SF Pro Display Bold',
-    backgroundColor: 'rgba(0, 0, 131, 0.5)',
-  },
-});

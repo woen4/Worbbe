@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Icon2 from 'react-native-vector-icons/MaterialIcons';
+import Modal from 'react-native-modal';
+import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 export const w = Dimensions.get('window').width / 100;
 export const h = Dimensions.get('window').height / 100;
@@ -31,9 +32,10 @@ export const ViewForm = styled.View`
   flex: 1;
   align-items: center;
   background-color: #fff;
-  margin: 70% ${w * 5}px ${h * 3}px ${w * 5}px;
+  margin: ${h * 31}px ${w * 5}px ${h * 3}px ${w * 5}px;
   padding-bottom: 3%;
   padding-top: 3%;
+  elevation: 10;
 `;
 
 export const Header = styled.View`
@@ -48,10 +50,6 @@ export const Header = styled.View`
   padding-right: 2%;
 `;
 
-export const ViewInput = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
 //
 
 //Text
@@ -81,12 +79,7 @@ export const TitleHeaderLight = styled(Text)`
   font-size: ${s3}px;
   color: #fff;
 `;
-export const LabelInput = styled(Text)`
-  align-self: flex-start;
-  font-size: ${s2}px;
-  color: #000084;
-  margin-left: 7%;
-`;
+
 //
 
 //Button
@@ -116,6 +109,7 @@ export const ButtonFloat = styled.TouchableOpacity`
   right: 3%;
   align-items: center;
   justify-content: center;
+  elevation: 10;
 `;
 
 export const ButtonTransparent = styled.TouchableOpacity`
@@ -166,18 +160,6 @@ export const TitleModal = styled(Text)`
   margin-bottom: 20px;
 `;
 //
-
-export const IosIconInput = styled(Icon)`
-  position: absolute;
-  padding-left: ${w * 2.5}px;
-  padding-bottom: ${h * 2}px;
-`;
-
-export const MaterialIconInput = styled(Icon2)`
-  position: absolute;
-  padding-left: ${w * 2.5}px;
-  padding-bottom: ${h * 2}px;
-`;
 
 export const MenuContainer = styled(Animatable.View)`
   background-color: #fff;
@@ -230,4 +212,53 @@ export const DividerMenu = styled.View`
   margin-left: 5%;
   margin-right: 5%;
   elevation: 1;
+`;
+
+export const ButtonLogout = styled.TouchableOpacity`
+  margin-top: 5%;
+  align-items: center;
+  justify-content: center;
+  height: ${h * 4.6}px;
+  width: 20%;
+  flex-direction: row;
+`;
+
+export const ModalLoading = styled(Modal)`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HeaderGradient = styled(LinearGradient)`
+  align-items: center;
+  height: ${h * 37}px;
+  width: 100%;
+  position: absolute;
+  background-color: #000044;
+  justify-content: flex-start;
+`;
+
+export const HeaderProfile = styled.View`
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  height: 20%;
+  padding-top: 3.5%;
+  padding-right: 2%;
+  padding-left: 2%;
+`;
+
+export const ButtonCamera = styled(ButtonIcon)`
+  position: absolute;
+  bottom: -3%;
+  right: 0%;
+  width: ${w * 9}px;
+  height: ${w * 9}px;
+  border-radius: 55px;
+  background-color: #fff;
+`;
+
+export const PhotoProfile = styled(FastImage)`
+  width: 100%;
+  height: 100%;
+  border-radius: 120px;
 `;

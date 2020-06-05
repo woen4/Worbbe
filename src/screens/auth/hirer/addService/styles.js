@@ -1,4 +1,8 @@
 import styled from 'styled-components/native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Picker} from '@react-native-community/picker';
+import InputSimple from '../../../unform/inputSimple';
+
 import {
   w,
   h,
@@ -33,6 +37,9 @@ export const HeaderProfile = styled.View`
 export const FormAddService = styled(ViewForm)`
   padding: ${h * 2}px ${w * 0}px ${h * 2}px ${w * 0}px;
   margin: 2% 5% 3% 5%;
+  elevation: 10;
+  border-width: 1px;
+  border-color: #999;
 `;
 
 export const MediumText = styled(SmallText)`
@@ -45,6 +52,7 @@ export const MediumText = styled(SmallText)`
 export const ButtonDateTime = styled(ButtonIcon)`
   width: 40%;
   height: 80%;
+  elevation: 10;
   background-color: #fff;
   border-radius: 10px;
   padding: 0px ${w * 0}px ${h * 0}px ${w * 0}px;
@@ -92,4 +100,43 @@ export const TextFooter = styled(MediumText)`
   color: #000084;
 `;
 
+export const DateTimePicker = styled(DateTimePickerModal)``;
 
+export const PickerStyled = styled(Picker)`
+  height: 100%;
+  width: 100%;
+`;
+
+export const ButtonIconAddress = styled.TouchableOpacity`
+  width: 9%;
+  margin-left: 3%;
+`;
+
+export const InputPrice = styled(InputSimple)`
+  width: 60%;
+  color: #000054;
+  font-size: ${s2}px;
+  margin-left: 7%;
+  font-family: 'SF Pro Display Bold';
+`;
+
+export const InputDescription = styled(InputSimple)`
+  height: ${h * 12}px;
+  width: 85%;
+  font-family: 'SF Pro Display Regular';
+  font-size: ${s1}px;
+  margin-top: 5%;
+  margin-bottom: 7%;
+  padding-horizontal: 1.5%;
+  padding-top: 0.5%;
+  text-align: justify;
+  text-align-vertical: top;
+  border-radius: 6px;
+  border-width: 0.3px;
+  border-color: #000;
+  font-weight: 400;
+`;
+
+export const ScrollBlue = styled.ScrollView`
+  background-color: #000054;
+`;

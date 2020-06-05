@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {w, h, ViewForm} from '../../../stylesShared';
+import FastImage from 'react-native-fast-image';
 
 export const MarginPhoto = styled.View`
   height: ${w * 36}px;
@@ -23,12 +24,6 @@ export const HeaderProfile = styled.View`
   padding-top: 3.5%;
   padding-right: 2%;
   padding-left: 2%;
-`;
-
-export const PhotoHired = styled.Image`
-  width: 100%;
-  height: 100%;
-  border-radius: 120px;
 `;
 
 export const ViewRating = styled.View`

@@ -30,10 +30,11 @@ export async function createUser(data) {
   if (response === false) {
     try {
       //Put photo in storage
-      const dataFile = await createFile('/avatars/', uid, data.avatar);
+      const dataFile = await createFile('/Avatars/', data.avatar);
       //Creating a doc of user (Collection, name)
       const doc = {
         name: data.name,
+        email: data.email,
         phone: data.phone,
         isClient: isClient,
         avatarRef: dataFile.name,
@@ -51,7 +52,7 @@ export async function createUser(data) {
   }
 }
 
-export async function signIn(data) {
+export async function logIn(data) {
   let back = {
     message: 'Logado com sucesso',
     uid: null,
@@ -79,4 +80,13 @@ export async function signIn(data) {
   }
 
   return back;
+}
+
+export async function logOut() {
+  try {
+    await auth().signOut();
+    return 'Usuário deslogado!';
+  } catch {
+    return 'Erro ao deslogar';
+  }
 }

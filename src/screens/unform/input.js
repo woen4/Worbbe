@@ -1,8 +1,34 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {TextInput} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {
+  ViewInput,
+  LabelInput,
+  IconIos,
+  IconMaterial,
+  IconMateriall,
+  TextInput,
+} from './styles';
+
 import {useField} from '@unform/core';
-function Input({name, ...rest}) {
+
+function Input({name, label, icon, iconSize, iconFamily, ...rest}) {
   const inputRef = useRef(null);
+  let labelInput;
+  if (label === '0') {
+  } else {
+    labelInput = <LabelInput>{label}</LabelInput>;
+  }
+  function defineIcon() {
+    if (iconFamily === 'Ionicons') {
+      return <IconIos name={icon} size={iconSize} color="#fff" />;
+    } else if (iconFamily === 'Material') {
+      return <IconMaterial name={icon} size={iconSize} color="#fff" />;
+    } else if (iconFamily === 'Materiall') {
+      return <IconMateriall name={icon} size={iconSize} color="#fff" />;
+    }
+  }
+
+  const iconIF = defineIcon();
+
   const {fieldName, registerField, defaultValue, error} = useField(name);
   useEffect(() => {
     inputRef.current.value = defaultValue;
@@ -25,19 +51,26 @@ function Input({name, ...rest}) {
       },
     });
   }, [fieldName, registerField]);
+
   return (
-    <TextInput
-      ref={inputRef}
-      keyboardAppearance="dark"
-      defaultValue={defaultValue}
-      placeholderTextColor="#666360"
-      onChangeText={(value) => {
-        if (inputRef.current) {
-          inputRef.current.value = value;
-        }
-      }}
-      {...rest}
-    />
+    <>
+      {labelInput}
+      <ViewInput>
+        <TextInput
+          ref={inputRef}
+          keyboardAppearance="dark"
+          defaultValue={defaultValue}
+          placeholderTextColor="#666360"
+          onChangeText={(value) => {
+            if (inputRef.current) {
+              inputRef.current.value = value;
+            }
+          }}
+          {...rest}
+        />
+        {iconIF}
+      </ViewInput>
+    </>
   );
 }
 export default Input;

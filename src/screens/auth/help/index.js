@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Form} from '@unform/mobile';
-import Input from '../../unform/input';
+import {createHelpDoc} from '../../../backend/firebase/index';
+import {validateHelp} from '../../../backend/validations';
+import ToastDefault from '../../toasts';
+import {useAuth} from '../../../contexts/authContext';
 import {
   TitleHeader,
   Header,
@@ -9,12 +12,22 @@ import {
   Container,
   s2,
   h,
-  s3,
 } from '../../stylesShared';
 import {StyleSheet, KeyboardAvoidingView} from 'react-native';
-import {Labels} from './styles';
+import {Labels, InputTitle, InputDescription} from './styles';
 
 export default function Help({navigation}) {
+  const formRef = useRef(null);
+  const {user} = useAuth();
+  function handleSend(data) {
+    if (validateHelp(data) === true) {
+      data.email = user._data.email;
+      ToastDefault(createHelpDoc(data));
+    } else {
+      ToastDefault(validateHelp(data));
+    }
+  }
+
   return (
     <Container>
       <Header>
@@ -22,16 +35,16 @@ export default function Help({navigation}) {
           <Icon name="ios-arrow-back" size={27} color="#000084" />
         </ButtonIcon>
         <TitleHeader>Suporte</TitleHeader>
-        <ButtonIcon>
+        <ButtonIcon onPress={() => formRef.current.submitForm()}>
           <Icon name="ios-send" size={27} color="#000084" />
         </ButtonIcon>
       </Header>
-      <Form>
+      <Form ref={formRef} onSubmit={handleSend}>
         <KeyboardAvoidingView behavior="height">
           <Labels>Assunto:</Labels>
-          <Input name="title" style={styles.inputTitle} />
+          <InputTitle name="title" />
           <Labels>Descrição:</Labels>
-          <Input name="description" style={styles.inputDescription} />
+          <InputDescription name="description" />
         </KeyboardAvoidingView>
       </Form>
     </Container>

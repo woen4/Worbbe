@@ -2,16 +2,12 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Form} from '@unform/mobile';
-import Input from '../../../unform/input';
 import {Picker} from '@react-native-community/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {
   Container,
-  s2,
   ButtonIcon,
   TitleHeaderLight,
-  h,
-  s1,
   ButtonLight,
   TextButtonLight,
 } from '../../../stylesShared';
@@ -26,14 +22,21 @@ import {
   PickerLocal,
   ViewPickerLocal,
   TextFooter,
+  PickerStyled,
+  ButtonIconAddress,
+  InputPrice,
+  InputDescription,
+  ScrollBlue,
 } from './styles';
-import {StyleSheet, ScrollView, Alert} from 'react-native';
+import {Alert} from 'react-native';
 
 export default function AddService({navigation}) {
   const [picker, setPicker] = useState('');
+
   const [pickerDateVisible, setPickerDateVisible] = useState(false);
   const [pickerTimeStartVisible, setPickerTimeStartVisible] = useState(false);
   const [pickerTimeEndVisible, setPickerTimeEndVisible] = useState(false);
+
   const [valueDate, setValueDate] = useState('Data');
   const [valueTimeStart, setValueTimeStart] = useState('H. Início');
   const [valueTimeEnd, setValueTimeEnd] = useState('H. Término');
@@ -42,7 +45,7 @@ export default function AddService({navigation}) {
     Alert.alert(
       'Requisição de serviço',
       'Sua requisição de serviço foi confirmada',
-      [{text: 'OK', onPress: () => navigation.navigate('HomeHirer')}, ,],
+      [{text: 'OK', onPress: () => navigation.navigate('HomeHirer')}],
       {cancelable: false},
     );
 
@@ -58,23 +61,35 @@ export default function AddService({navigation}) {
 
   function getValueDatePicker({Date}) {
     managerPickerDateVisible();
-    let day = Date.getUTCDate();
-    let month = Date.getUTCMonth();
-    let fullYear = Date.getFullYear() + '';
-    let year = fullYear.slice(2, 4);
+    let day = Date.getDate();
+    if (day < 10) {
+      day = '0' + day;
+    }
+    let month = Date.getUTCMonth() + 1;
+    if (month < 10) {
+      month = '0' + month;
+    }
+    let fullYear = Date.getYear() + '';
+    let year = fullYear.slice(1, 3);
     let date = day + '/' + month + '/' + year;
     setValueDate(date);
   }
   function getValueTimeStartPicker({Date}) {
     managerPickerTimeStartVisible();
-    let hours = Date.getUTCHours() - 3;
+    let hours = Date.getHours();
+    if (hours < 10) {
+      hours = '0' + hours;
+    }
     let minutes = Date.getUTCMinutes();
     let timeStart = hours + ':' + minutes;
     setValueTimeStart(timeStart);
   }
   function getValueTimeEndPicker({Date}) {
     managerPickerTimeEndVisible();
-    let hours = Date.getUTCHours() - 3;
+    let hours = Date.getHours();
+    if (hours < 10) {
+      hours = '0' + hours;
+    }
     let minutes = Date.getUTCMinutes();
     let timeEnd = hours + ':' + minutes;
     setValueTimeEnd(timeEnd);
@@ -82,7 +97,7 @@ export default function AddService({navigation}) {
 
   return (
     <Container>
-      <ScrollView style={styles.scroll}>
+      <ScrollBlue>
         <HeaderProfile>
           <ButtonIcon onPress={() => navigation.goBack()}>
             <Icon name="ios-arrow-back" size={27} color="#fff" />
@@ -91,83 +106,72 @@ export default function AddService({navigation}) {
           <ButtonIcon />
         </HeaderProfile>
 
-        <FormAddService style={{elevation: 10}}>
+        <FormAddService>
           <ViewPicker>
-            <Picker
+            <PickerStyled
               mode="dropdown"
-              style={styles.picker}
               selectedValue={picker}
               onValueChange={(itemValue) => setPicker(itemValue)}>
               <Picker.Item label="Área" value="área" />
               <Picker.Item label="Domésticos" value="Domésticos" />
-            </Picker>
+            </PickerStyled>
           </ViewPicker>
           <ViewPicker>
-            <Picker
+            <PickerStyled
               mode="dropdown"
-              style={styles.picker}
               selectedValue={picker}
               onValueChange={(itemValue) => setPicker(itemValue)}>
               <Picker.Item label="Campo" value="Campo" />
               <Picker.Item label="Limpeza" value="Limpeza" />
-            </Picker>
+            </PickerStyled>
           </ViewPicker>
           <ViewPicker>
-            <Picker
+            <PickerStyled
               mode="dropdown"
-              style={styles.picker}
               selectedValue={picker}
               onValueChange={(itemValue) => setPicker(itemValue)}>
               <Picker.Item label="Sub campo" value="Sub campo" />
               <Picker.Item label="Limpeza pós obra" value="Limpeza pós obra" />
-            </Picker>
+            </PickerStyled>
           </ViewPicker>
           <ViewPickerLocal>
             <PickerLocal>
-              <Picker
+              <PickerStyled
                 mode="dropdown"
-                style={styles.picker}
                 selectedValue={picker}
                 onValueChange={(itemValue) => setPicker(itemValue)}>
                 <Picker.Item label="Local" value="Local" />
                 <Picker.Item label="Casa" value="Casa" />
                 <Picker.Item label="Trabalho" value="Trabalho" />
-              </Picker>
+              </PickerStyled>
             </PickerLocal>
-            <ButtonIcon
-              onPress={() => navigation.navigate('AddAddressMap')}
-              style={styles.icon}>
+            <ButtonIconAddress
+              onPress={() => navigation.navigate('AddAddressMap')}>
               <Icon2 name="map-marker-plus" size={27} color="#000054" />
-            </ButtonIcon>
+            </ButtonIconAddress>
           </ViewPickerLocal>
           <SuportDateTime>
-            <ButtonDateTime
-              onPress={managerPickerTimeStartVisible}
-              style={{elevation: 10}}>
+            <ButtonDateTime onPress={managerPickerTimeStartVisible}>
               <Icon name="md-time" size={27} color="#000054" />
               <MediumText>{valueTimeStart}</MediumText>
             </ButtonDateTime>
-            <ButtonDateTime
-              onPress={managerPickerTimeEndVisible}
-              style={{elevation: 10}}>
+            <ButtonDateTime onPress={managerPickerTimeEndVisible}>
               <Icon name="md-time" size={27} color="#000054" />
               <MediumText>{valueTimeEnd}</MediumText>
             </ButtonDateTime>
           </SuportDateTime>
           <SuportDateTime>
-            <ButtonDateTime
-              onPress={managerPickerDateVisible}
-              style={{elevation: 10}}>
+            <ButtonDateTime onPress={managerPickerDateVisible}>
               <Icon name="md-calendar" size={27} color="#000054" />
               <MediumText>{valueDate}</MediumText>
             </ButtonDateTime>
-            <ButtonDateTime style={{elevation: 10}}>
+            <ButtonDateTime>
               <Icon2 name="currency-usd" size={27} color="#000054" />
               <Form>
-                <Input
+                <InputPrice
+                  maxLength={4}
                   placeholderTextColor="#999"
                   placeholder="00,00"
-                  style={styles.inputPrice}
                   name="Price"
                   keyboardType="number-pad"
                 />
@@ -175,9 +179,8 @@ export default function AddService({navigation}) {
             </ButtonDateTime>
           </SuportDateTime>
           <Form>
-            <Input
+            <InputDescription
               placeholder="Descreva seu serviço aqui..."
-              style={styles.inputDescription}
               name="description"
             />
           </Form>
@@ -205,44 +208,7 @@ export default function AddService({navigation}) {
           />
           <TextFooter>Para orçamentar deixe o preço em branco*⠀</TextFooter>
         </FormAddService>
-      </ScrollView>
+      </ScrollBlue>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    backgroundColor: '#000054',
-  },
-  picker: {
-    height: '100%',
-    width: '100%',
-  },
-  icon: {
-    width: '9%',
-    marginLeft: '3%',
-  },
-  inputPrice: {
-    width: '50%',
-    color: '#000054',
-    fontSize: s2,
-    marginLeft: '10%',
-    fontFamily: 'SF Pro Display Bold',
-  },
-  inputDescription: {
-    height: h * 12,
-    width: '85%',
-    fontFamily: 'SF Pro Display Medium',
-    fontSize: s1,
-    marginTop: '5%',
-    marginBottom: '7%',
-    paddingHorizontal: '1.5%',
-    paddingTop: '0.5%',
-    textAlign: 'justify',
-    textAlignVertical: 'top',
-    borderRadius: 6,
-    borderWidth: 0.3,
-    borderColor: '#000',
-  },
-});

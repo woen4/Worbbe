@@ -1,19 +1,20 @@
-import React, {useContext} from 'react';
-import AuthContext from '../contexts/authContext';
+import React from 'react';
+import {useAuth} from '../contexts/authContext';
 import NoAuthRoutes from './noAuth.routes';
 import HirerRoutes from './hirer.routes';
 import HiredRoutes from './hired.routes';
 
 const Routes = () => {
-  const {signed, user} = useContext(AuthContext);
-  if (user === null) {
-    return <NoAuthRoutes />;
-  } else {
-    if (user._data.isClient === true) {
+  const {user} = useAuth();
+
+  if (user != null) {
+    if (user.isClient === true) {
       return <HirerRoutes />;
     } else {
       return <HiredRoutes />;
     }
+  } else {
+    return <NoAuthRoutes />;
   }
 };
 

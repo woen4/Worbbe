@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-import {Button} from '../../../stylesShared';
+import {Button, w} from '../../../stylesShared';
+import InputSimple from '../../../unform/inputSimple';
 
 export const MapView = styled.View`
   justify-content: flex-end;
@@ -32,4 +33,30 @@ export const ViewRow = styled.View`
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+`;
+
+export const ButtonSave = styled.TouchableOpacity`
+  margin-top: 10%;
+`;
+
+export const InputNumber = styled(InputSimple)`
+  width: ${w * 20}px;
+  border-bottom-width: 2px;
+  border-color: #000084;
+  color: #000054;
+`;
+
+export const InputReference = styled(InputSimple)`
+  width: ${w * 60}px;
+  border-bottom-width: 2px;
+  border-color: #000084;
+  color: #000054;
+`;
+
+export const Input = styled(InputSimple)`
+  background-color: #fff;
+  width: 100%;
+  border-bottom-width: 2px;
+  border-color: #000084;
+  color: #000054;
 `;

@@ -1,9 +1,9 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import foto from '../../../../assets/foto.jpg';
 import Request from './request';
-import AuthContext from '../../../../contexts/authContext';
+
 import {
   Container,
   ButtonFloat,
@@ -58,8 +58,7 @@ export default function FeedRequests({navigation}) {
       Price: '50,00',
     },
   ];
-  const {user} = useContext(AuthContext);
-  console.log(user);
+
   const [menu, setMenu] = useState(null);
   const [funnel, setFunnel] = useState(null);
 
@@ -96,10 +95,7 @@ export default function FeedRequests({navigation}) {
         <ItemMenu>
           <TextItemMenu>Filtrar por:</TextItemMenu>
         </ItemMenu>
-        <ItemMenu
-          onPress={() => {
-            navigation.navigate('ProfileHired');
-          }}>
+        <ItemMenu onPress={() => {}}>
           <Icon2 name="map-marker-distance" size={26} color="#000054" />
           <TextItemMenu>Proximidade</TextItemMenu>
         </ItemMenu>
@@ -132,9 +128,7 @@ export default function FeedRequests({navigation}) {
           renderItem={({item}) => <Request service={item} />}
         />
 
-        <ButtonFloat
-          onPress={() => navigation.navigate('ListServices')}
-          style={{elevation: 8}}>
+        <ButtonFloat onPress={() => navigation.navigate('ListServices')}>
           <Icon name="ios-list" size={34} color="#000084" />
         </ButtonFloat>
         {menu}

@@ -1,30 +1,61 @@
-import React, {createContext, useState, useEffect} from 'react';
-import {AsyncStorage} from 'react-native';
-
-import {signIn} from '../backend/firebase/auth';
+import React, {createContext, useState, useEffect, useContext} from 'react';
+import {logIn, logOut} from '../backend/firebase/auth';
 import {readDoc} from '../backend/firebase/firestore';
-
-const AuthContext = createContext({signed: false});
+import auth from '@react-native-firebase/auth';
+const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    verifyLoged();
+  }, []);
+
+  async function verifyLoged() {
+    const response = auth().currentUser;
+    if (response != null) {
+      const responseRead = await readDoc('Users', response.uid);
+      if (responseRead._data.disable === true) {
+        setUser(null);
+      } else {
+        setUser(responseRead._data);
+      }
+    } else {
+      setUser(null);
+    }
+  }
 
   async function fillContext(data) {
-    const response = await signIn(data);
+    const response = await logIn(data);
     if (response.uid != null) {
-      const reference = {
-        collection: 'Users',
-        name: response.uid,
-      };
-      setUser(await readDoc(reference));
+      const responseRead = await readDoc('Users', response.uid);
+      if (responseRead._data.disable === true) {
+        setUser(null);
+        response.message = 'Conta Desativada';
+      } else {
+        setUser(responseRead._data);
+      }
     }
     return response.message;
   }
 
+  async function refresh() {
+    await verifyLoged();
+  }
+
+  async function deleteContext() {
+    setUser(null);
+    const response = await logOut();
+    return response;
+  }
+
   return (
-    <AuthContext.Provider value={{user: user, fillContext}}>
+    <AuthContext.Provider
+      value={{user: user, fillContext, deleteContext, refresh}}>
       {children}
     </AuthContext.Provider>
   );
 };
-export default AuthContext;
+export function useAuth() {
+  return useContext(AuthContext);
+}

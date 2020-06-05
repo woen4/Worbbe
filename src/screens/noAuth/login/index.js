@@ -1,14 +1,13 @@
-import React, {useRef, useContext} from 'react';
+import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../../../assets/LogoWG.png';
 import google from '../../../assets/google.png';
-import LinearGradient from 'react-native-linear-gradient';
 import {Form} from '@unform/mobile';
-import * as Animatable from 'react-native-animatable';
 import Input from '../../unform/input';
 import {validateLogin} from '../../../backend/validations';
 import ToastDefault from '../../toasts';
-import AuthContext from '../../../contexts/authContext';
+import {useAuth} from '../../../contexts/authContext';
+import * as Progress from 'react-native-progress';
 import {
   TitleForm,
   Logo,
@@ -21,27 +20,17 @@ import {
   ViewSocial,
   ButtonLogin,
   ButtonLoginSocial,
+  HeaderGradientLogin,
+  ViewFormLogin,
 } from './styles';
 
-import {
-  Container,
-  TextButtonLight,
-  ViewForm,
-  s2,
-  ViewInput,
-  h,
-  IosIconInput,
-} from '../../stylesShared';
+import {Container, TextButtonLight, ModalLoading} from '../../stylesShared';
 
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
 export default function Home({navigation}) {
-  const {signed, fillContext} = useContext(AuthContext);
+  const {fillContext} = useAuth();
+  const [modalVisible, setModalVisible] = useState(false);
   const isClient = true;
   const formRef = useRef(null);
 
@@ -82,8 +71,10 @@ export default function Home({navigation}) {
 
   async function handleLogin(data) {
     if (validateLogin(data) === true) {
-      let response = await fillContext(data);
+      setModalVisible(true);
+      const response = await fillContext(data);
       ToastDefault(response);
+      setModalVisible(false);
     } else {
       ToastDefault(validateLogin(data));
     }
@@ -93,37 +84,37 @@ export default function Home({navigation}) {
     <Container>
       <KeyboardAvoidingView>
         <ScrollView>
-          <ViewForm style={{elevation: 10, marginTop: h * 23}}>
+          <ViewFormLogin>
             <TitleForm>LOGIN</TitleForm>
             <Form ref={formRef} onSubmit={handleLogin}>
-              <ViewInput>
-                <Input
-                  style={styles.input}
-                  name="email"
-                  backgroundColor="rgba(0, 0, 131, 0.5)"
-                  autoCorrect={false}
-                  placeholderTextColor="#fff"
-                  placeholderTextWeigth="bold"
-                  autoCompleteType="email"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-                  placeholder="Seu email"
-                />
-                <IosIconInput name="ios-mail" size={28} color="#fff" />
-              </ViewInput>
-              <ViewInput>
-                <Input
-                  style={styles.input}
-                  name="password"
-                  backgroundColor="rgba(0, 0, 131, 0.5)"
-                  placeholderTextColor="#fff"
-                  placeholderTextWeigth="bold"
-                  autoCorrect={false}
-                  secureTextEntry={true}
-                  placeholder="Sua senha"
-                />
-                <IosIconInput name="ios-lock" size={28} color="#fff" />
-              </ViewInput>
+              <Input
+                label="0"
+                icon="ios-mail"
+                iconFamily="Ionicons"
+                iconSize={28}
+                name="email"
+                backgroundColor="rgba(0, 0, 131, 0.5)"
+                autoCorrect={false}
+                placeholderTextColor="#fff"
+                placeholderTextWeigth="bold"
+                autoCompleteType="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                placeholder="Seu email"
+              />
+              <Input
+                label="0"
+                icon="ios-lock"
+                iconFamily="Ionicons"
+                iconSize={28}
+                name="password"
+                backgroundColor="rgba(0, 0, 131, 0.5)"
+                placeholderTextColor="#fff"
+                placeholderTextWeigth="bold"
+                autoCorrect={false}
+                secureTextEntry={true}
+                placeholder="Sua senha"
+              />
             </Form>
 
             <ButtonLogin onPress={() => formRef.current.submitForm()}>
@@ -132,9 +123,7 @@ export default function Home({navigation}) {
 
             <SmallTextWithMargin>
               Não tem uma conta?
-              <SmallTextRegister
-                onPress={alertConfirmation}
-                style={{color: '#000084', fontSize: s2}}>
+              <SmallTextRegister onPress={alertConfirmation}>
                 {' '}
                 Cadastre-se
               </SmallTextRegister>
@@ -154,43 +143,31 @@ export default function Home({navigation}) {
               </ButtonLoginSocial>
 
               <ButtonLoginSocial>
-                <LogoGoogle style={{resizeMode: 'contain'}} source={google} />
+                <LogoGoogle source={google} />
               </ButtonLoginSocial>
             </ViewSocial>
-          </ViewForm>
-          <LinearGradient
-            colors={['#000054', '#000074', '#000094']}
-            style={styles.ViewGradient}>
-            <Logo style={{resizeMode: 'contain'}} source={logo} />
-          </LinearGradient>
+          </ViewFormLogin>
+          <HeaderGradientLogin colors={['#000054', '#000074', '#000094']}>
+            <Logo source={logo} />
+          </HeaderGradientLogin>
+          <ModalLoading
+            backdropColor="#FFF"
+            backdropOpacity={0.8}
+            animationIn="bounceIn"
+            animationOut="bounceOut"
+            animationInTiming={1000}
+            animationOutTiming={1000}
+            useNativeDriver={true}
+            isVisible={modalVisible}>
+            <Progress.CircleSnail
+              thickness={4}
+              spinDuration={1500}
+              indeterminate={true}
+              color={['#606094', '#000074', '#404094']}
+            />
+          </ModalLoading>
         </ScrollView>
       </KeyboardAvoidingView>
     </Container>
   );
 }
-const styles = StyleSheet.create({
-  ViewGradient: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: h * 30,
-    width: '100%',
-    backgroundColor: '#000054',
-    paddingTop: 30,
-    paddingRight: 30,
-    paddingBottom: 80,
-    paddingLeft: 30,
-  },
-  input: {
-    borderRadius: 40,
-    height: h * 6,
-    paddingLeft: 40,
-    width: '92%',
-    color: '#fff',
-    fontSize: s2,
-    textAlignVertical: 'top',
-    marginBottom: '4%',
-    fontFamily: 'SF Pro Display Bold',
-    backgroundColor: 'rgba(0, 0, 131, 0.5)',
-  },
-});
