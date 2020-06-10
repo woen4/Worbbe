@@ -191,9 +191,11 @@ android {
 
 
 dependencies {
+
     compile 'com.android.support:multidex:1.0.1'
     implementation "com.google.firebase:firebase-analytics:17.2.2"
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':lottie-react-native')
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

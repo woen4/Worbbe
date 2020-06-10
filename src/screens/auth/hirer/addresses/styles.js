@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
-import {Button, w} from '../../../stylesShared';
-import InputSimple from '../../../unform/inputSimple';
+import {Button, h, s1} from '../../../stylesShared';
+import Modal from 'react-native-modal';
+import Input from '../../../unform/input';
 
 export const MapView = styled.View`
   justify-content: flex-end;
@@ -10,23 +11,19 @@ export const MapView = styled.View`
 
 export const ButtonMap = styled(Button)`
   bottom: 3%;
+  right: 4.5%;
   position: absolute;
 `;
 
-export const ImageMap = styled.Image`
-  width: 100%;
-  height: 100%;
+export const ModalNameAddress = styled(Modal)`
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ContainerDetails = styled.View`
   width: 100%;
   height: 100%;
   padding: 5% 5% 5% 5%;
-`;
-
-export const ViewInput = styled.View`
-  margin: 8% 0% 2% 0;
-  padding: 0% 3% 0% 3%;
 `;
 
 export const ViewRow = styled.View`
@@ -39,24 +36,24 @@ export const ButtonSave = styled.TouchableOpacity`
   margin-top: 10%;
 `;
 
-export const InputNumber = styled(InputSimple)`
-  width: ${w * 20}px;
-  border-bottom-width: 2px;
-  border-color: #000084;
-  color: #000054;
+export const ViewInput = styled.View`
+  margin: 0% 0% 8% 0;
+  padding: 0% 3% 0% 3%;
+  width: 50%;
 `;
 
-export const InputReference = styled(InputSimple)`
-  width: ${w * 60}px;
+export const InputSimple = styled(Input)`
+  border-radius: 0px;
+  padding-left: 0px;
+  color: #fff;
+  font-size: ${s1}px;
+  margin-bottom: 0%;
+  background-color: transparent;
   border-bottom-width: 2px;
   border-color: #000084;
   color: #000054;
-`;
-
-export const Input = styled(InputSimple)`
-  background-color: #fff;
-  width: 100%;
-  border-bottom-width: 2px;
-  border-color: #000084;
-  color: #000054;
+  padding-top: 0px;
+  margin-top: 0%;
+  padding-bottom: 0%;
+  font-family: 'SF Pro Display Regular';
 `;

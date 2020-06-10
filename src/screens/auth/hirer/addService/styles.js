@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Picker} from '@react-native-community/picker';
-import InputSimple from '../../../unform/inputSimple';
+import Input from '../../../unform/input';
 
 import {
   w,
@@ -112,7 +112,7 @@ export const ButtonIconAddress = styled.TouchableOpacity`
   margin-left: 3%;
 `;
 
-export const InputPrice = styled(InputSimple)`
+export const InputPrice = styled(Input)`
   width: 60%;
   color: #000054;
   font-size: ${s2}px;
@@ -120,7 +120,7 @@ export const InputPrice = styled(InputSimple)`
   font-family: 'SF Pro Display Bold';
 `;
 
-export const InputDescription = styled(InputSimple)`
+export const InputDescription = styled(Input)`
   height: ${h * 12}px;
   width: 85%;
   font-family: 'SF Pro Display Regular';

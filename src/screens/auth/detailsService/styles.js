@@ -13,6 +13,19 @@ export const ViewDateTime = styled.View`
   elevation: 10;
 `;
 
+export const ViewText = styled.View`
+  margin: 2% 0% 8% 0;
+  padding: 0% 3% 0% 3%;
+`;
+export const TextSimple = styled.Text`
+  border-bottom-width: 2px;
+  border-color: #000084;
+  color: #000054;
+  margin-top: 4%;
+  padding-bottom: 4%;
+  font-family: 'SF Pro Display Regular';
+`;
+
 export const SuportDateTime = styled.View`
   width: 100%;
   height: ${h * 8}px;
@@ -28,15 +41,6 @@ export const ContainerDetails = styled.View`
   padding: 5% 5% 5% 5%;
 `;
 
-export const ViewInput = styled.View`
-  margin: 8% 0% 2% 0;
-  padding: 0% 3% 0% 3%;
-`;
-
-export const ViewRow = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
 
 export const TextDescription = styled.Text`
   height: ${h * 12}px;

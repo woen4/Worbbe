@@ -5,10 +5,11 @@ import ImagePicker from 'react-native-image-picker';
 import Input from '../../../unform/input';
 import ToastDefault from '../../../toasts';
 import {useAuth} from '../../../../contexts/authContext';
-import {updateProfile} from '../../../../backend/firebase/index';
+import {updateProfile} from '../../../../backend/firebase/profileFB';
 import {validateProfile} from '../../../../backend/validations';
 import FastImage from 'react-native-fast-image';
-import * as Progress from 'react-native-progress';
+import progress from '../../../../assets/progress.json';
+import LottieView from 'lottie-react-native';
 import {
   Container,
   ButtonIcon,
@@ -21,6 +22,7 @@ import {
   PhotoProfile,
   TitleHeader,
   ModalLoading,
+  wh,
 } from '../../../stylesShared';
 import {ScrollView} from 'react-native';
 import {MarginPhoto, HeaderProfile, ViewRating} from './styles';
@@ -186,11 +188,11 @@ export default function ProfileHired({navigation}) {
           animationOutTiming={1000}
           useNativeDriver={true}
           isVisible={modalVisible}>
-          <Progress.CircleSnail
-            thickness={4}
-            spinDuration={1500}
-            indeterminate={true}
-            color={['#606094', '#000074', '#404094']}
+          <LottieView
+            style={{width: wh * 8, height: wh * 8}}
+            source={progress}
+            autoPlay
+            loop
           />
         </ModalLoading>
       </ScrollView>

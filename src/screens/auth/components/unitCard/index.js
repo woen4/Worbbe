@@ -5,19 +5,18 @@ import {ContainerCard, Title, SubTitle, ViewDetails} from './styles';
 
 import {ButtonIcon} from '../../../stylesShared';
 
-export default function Card({card}) {
+export function Card({title, subtitle, remove, id}) {
   const navigation = useNavigation();
+  const ID = id;
 
   return (
     <ContainerCard>
       <ViewDetails>
-        <Title>{card.Title}</Title>
-        <SubTitle>{card.SubTitle}</SubTitle>
+        <Title>{title}</Title>
+        <SubTitle>{subtitle}</SubTitle>
       </ViewDetails>
       <ViewDetails>
-        <ButtonIcon
-          style={{width: '100%'}}
-          onPress={() => navigation.navigate('Chat')}>
+        <ButtonIcon style={{width: '100%'}} onPress={() => remove(ID)}>
           <Icon name="delete-outline" size={29} color="#000084" />
         </ButtonIcon>
       </ViewDetails>

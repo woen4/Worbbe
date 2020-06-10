@@ -12,6 +12,20 @@ export const ViewInput = styled.View`
   align-items: center;
 `;
 
+export const ViewInputSimple = styled.View`
+  margin: 8% 0% 2% 0;
+  padding: 0% 3% 0% 3%;
+`;
+
+export const InputSimpleStyled = styled.Text`
+  border-bottom-width: 2px;
+  border-color: #000084;
+  color: #000054;
+  margin-top: 3%;
+  padding-bottom: 2%;
+  font-family: 'SF Pro Display Regular';
+`;
+
 export const LabelInput = styled(Text)`
   align-self: flex-start;
   font-size: ${s2}px;

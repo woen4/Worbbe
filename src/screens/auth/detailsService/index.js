@@ -1,8 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import InputSimple from '../../unform/inputSimple';
 import {Form} from '@unform/mobile';
-import foto from '../../../assets/foto.jpg';
 import FastImage from 'react-native-fast-image';
 import {
   Container,
@@ -16,7 +14,6 @@ import {
 } from '../../stylesShared';
 import {
   ContainerDetails,
-  ViewInput,
   ViewRow,
   ViewDateTime,
   SuportDateTime,
@@ -24,6 +21,8 @@ import {
   ViewPhotos,
   MarginPhotoClient,
   MarginPhotoServer,
+  ViewText,
+  TextSimple,
 } from './styles';
 import {StyleSheet, ScrollView, View} from 'react-native';
 
@@ -70,57 +69,30 @@ export default function DetailsService({navigation}) {
             </View>
           </ViewPhotos>
           <Form>
-            <ViewInput>
+            <ViewText>
               <SmallText>Nome do cliente:</SmallText>
-              <InputSimple
-                editable={false}
-                style={styles.input}
-                name="complement">
-                Luiz Eduardo
-              </InputSimple>
-            </ViewInput>
-            <ViewInput>
+              <TextSimple style={styles.input}>Luiz Eduardo</TextSimple>
+            </ViewText>
+
+            <ViewText>
               <SmallText>Nome do profissional:</SmallText>
-              <InputSimple
-                editable={false}
-                style={styles.input}
-                name="complement">
-                Kaio Woen
-              </InputSimple>
-            </ViewInput>
-            <ViewRow>
-              <ViewInput>
-                <SmallText>Local:</SmallText>
-                <InputSimple
-                  editable={false}
-                  style={styles.inputReference}
-                  name="complement">
-                  Rua Ângelo Quadros, 619
-                </InputSimple>
-              </ViewInput>
-              <ViewInput>
-                <SmallText>Preço:</SmallText>
-                <InputSimple
-                  style={styles.inputNumber}
-                  editable={false}
-                  name="complement">
-                  Orçamentado
-                </InputSimple>
-              </ViewInput>
-            </ViewRow>
+              <TextSimple style={styles.input}>Kaio Woen</TextSimple>
+            </ViewText>
+
+            <ViewText>
+              <SmallText>Preço:</SmallText>
+              <TextSimple>Orçamentado</TextSimple>
+            </ViewText>
           </Form>
-          <ViewInput>
-            <SmallText>Descrição:</SmallText>
-            <TextDescription
-              multiline={true}
-              editable={false}
-              autoCorrect={true}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              blandit magna eget enim pretium, ac facilisis arcu facilisis.
-              Curabitur consectetur turpis vel massa eleifend aliquam. Vivamus
-              porttitor dui in diam hendrerit lacinia.{' '}
-            </TextDescription>
-          </ViewInput>
+
+          <SmallText>Descrição:</SmallText>
+          <TextDescription>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            blandit magna eget enim pretium, ac facilisis arcu facilisis.
+            Curabitur consectetur turpis vel massa eleifend aliquam. Vivamus
+            porttitor dui in diam hendrerit lacinia.{' '}
+          </TextDescription>
+
           <SuportDateTime>
             <ViewDateTime>
               <Icon name="md-calendar" size={27} color="#000054" />
@@ -138,25 +110,10 @@ export default function DetailsService({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  input: {
-    width: '100%',
-    borderBottomWidth: 2,
-    borderColor: '#000084',
-    color: '#000054',
-  },
   inputReference: {
     width: w * 55,
-    borderBottomWidth: 2,
-    borderColor: '#000084',
-    color: '#000054',
   },
   inputNumber: {
     width: w * 25,
-    borderBottomWidth: 2,
-    borderColor: '#000084',
-    color: '#000054',
-  },
-  button: {
-    marginTop: '10%',
   },
 });

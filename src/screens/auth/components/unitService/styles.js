@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {s3, s1, s2, h} from '../../../stylesShared';
+import {s3, s1, s2, h, ButtonIcon} from '../../../stylesShared';
 
 export const ContainerService = styled.TouchableOpacity`
   border-bottom-width: ${h * 0.2}px;

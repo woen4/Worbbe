@@ -5,11 +5,11 @@ import ImagePicker from 'react-native-image-picker';
 import Input from '../../../unform/input';
 import ToastDefault from '../../../toasts';
 import {useAuth} from '../../../../contexts/authContext';
-import {updateProfile} from '../../../../backend/firebase/index';
+import {updateProfile} from '../../../../backend/firebase/profileFB';
 import {validateProfile} from '../../../../backend/validations';
 import FastImage from 'react-native-fast-image';
-import * as Progress from 'react-native-progress';
-
+import LottieView from 'lottie-react-native';
+import progress from '../../../../assets/progress.json';
 import {
   Container,
   ButtonIcon,
@@ -21,6 +21,7 @@ import {
   SmallText,
   PhotoProfile,
   ModalLoading,
+  wh,
 } from '../../../stylesShared';
 import {ScrollView} from 'react-native';
 import {MarginPhoto, HeaderProfile} from './styles';
@@ -37,7 +38,7 @@ export default function ProfileHirer({navigation}) {
     if (validateProfile(data) === true) {
       setModalVisible(true);
       data.avatar = avatar;
-      data.avatarRef = user.avatarRef;
+      data.avatarUrl = user.avatarUrl;
       const response = await updateProfile(data);
       setModalVisible(false);
       ToastDefault(response);
@@ -169,11 +170,11 @@ export default function ProfileHirer({navigation}) {
           animationOutTiming={1000}
           useNativeDriver={true}
           isVisible={modalVisible}>
-          <Progress.CircleSnail
-            thickness={4}
-            spinDuration={1500}
-            indeterminate={true}
-            color={['#606094', '#000074', '#404094']}
+          <LottieView
+            style={{width: wh * 8, height: wh * 8}}
+            source={progress}
+            autoPlay
+            loop
           />
         </ModalLoading>
       </ScrollView>

@@ -1,9 +1,7 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import service from '../../../../assets/service.jpeg';
 import foto from '../../../../assets/foto.jpg';
-import Carousel from 'react-native-snap-carousel';
-import Service from '../../components/unitService/index';
+import UnitService from './unitService';
 import {
   TitleHeader,
   Header,
@@ -15,19 +13,17 @@ import {
   TextItemMenu,
   DividerMenu,
 } from '../../../stylesShared';
-import {FlatList} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, Dimensions} from 'react-native';
 import {
   ViewCarousel,
   ImageCarousel,
-  TitleItemCarousel,
-  TitleCarousel,
+  ViewDot,
   ItemCarousel,
-  ViewListServices,
-  TitleList,
+  TextDot,
 } from './styles';
 
 export default function HomeHirer({navigation}) {
-  let ExampleServices = [
+  const ExampleServices = [
     {
       id: '123',
       Type: 'Limpeza',
@@ -124,36 +120,102 @@ export default function HomeHirer({navigation}) {
       Time: '16:00',
       Price: '50,00',
     },
+    {
+      id: '611',
+      Type: 'Limpeza',
+      NameHirer: 'Kaio Woen',
+      PhotoHirer: foto,
+      Distance: '5km',
+      Date: '10/05/19',
+      Description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
+      Time: '16:00',
+      Price: '50,00',
+    },
+    {
+      id: '611',
+      Type: 'Limpeza',
+      NameHirer: 'Kaio Woen',
+      PhotoHirer: foto,
+      Distance: '5km',
+      Date: '10/05/19',
+      Description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
+      Time: '16:00',
+      Price: '50,00',
+    },
+    {
+      id: '611',
+      Type: 'Limpeza',
+      NameHirer: 'Kaio Woen',
+      PhotoHirer: foto,
+      Distance: '5km',
+      Date: '10/05/19',
+      Description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
+      Time: '16:00',
+      Price: '50,00',
+    },
+    {
+      id: '611',
+      Type: 'Limpeza',
+      NameHirer: 'Kaio Woen',
+      PhotoHirer: foto,
+      Distance: '5km',
+      Date: '10/05/19',
+      Description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
+      Time: '16:00',
+      Price: '50,00',
+    },
+    {
+      id: '611',
+      Type: 'Limpeza',
+      NameHirer: 'Kaio Woen',
+      PhotoHirer: foto,
+      Distance: '5km',
+      Date: '10/05/19',
+      Description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
+      Time: '16:00',
+      Price: '50,00',
+    },
   ];
 
   const itemsCarousel = [
     {
-      image: service,
-      title: 'Limpeza',
+      id: 0,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
     {
-      image: service,
-      title: 'Limpeza',
+      id: 1,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
     {
-      image: service,
-      title: 'Limpeza',
+      id: 2,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
     {
-      image: service,
-      title: 'Limpeza',
+      id: 3,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
     {
-      image: service,
-      title: 'Limpeza',
+      id: 4,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
     {
-      image: service,
-      title: 'Limpeza',
+      id: 5,
+      image:
+        'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
     },
   ];
 
-  let [menu, setMenu] = useState(null);
+  const [menu, setMenu] = useState(null);
 
   function renderMenu() {
     setMenu(
@@ -186,28 +248,45 @@ export default function HomeHirer({navigation}) {
   }
 
   function HeaderComponentFlatList() {
-    function renderItem({item}) {
-      return (
-        <ItemCarousel>
-          <ImageCarousel source={item.image} resizeMode="cover" />
-          <TitleItemCarousel>{item.title}</TitleItemCarousel>
-        </ItemCarousel>
+    const [active, setActive] = useState(0);
+    const {width} = Dimensions.get('window');
+
+    const changeDot = ({nativeEvent}) => {
+      const slide = Math.ceil(
+        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
       );
-    }
+      if (slide != active) {
+        setActive(slide);
+      }
+    };
     return (
       <>
-        <TitleCarousel>Mais populares:</TitleCarousel>
         <ViewCarousel>
-          <Carousel
-            layout={'default'}
-            data={itemsCarousel}
-            sliderWidth={w * 103}
-            itemWidth={w * 65}
-            renderItem={renderItem}
-          />
+          <ScrollView
+            onScroll={changeDot}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            pagingEnabled>
+            {itemsCarousel.map((item, index) => (
+              <ItemCarousel>
+                <ImageCarousel
+                  key={index}
+                  source={{uri: item.image}}
+                  resizeMode="stretch"
+                />
+              </ItemCarousel>
+            ))}
+          </ScrollView>
+          <ViewDot>
+            {itemsCarousel.map((item, k) => (
+              <TextDot
+                key={k}
+                style={k === active ? styles.dot : styles.dotActive}>
+                ⬤
+              </TextDot>
+            ))}
+          </ViewDot>
         </ViewCarousel>
-
-        <TitleList>Seus serviços:</TitleList>
       </>
     );
   }
@@ -225,23 +304,25 @@ export default function HomeHirer({navigation}) {
       </Header>
 
       <Container onTouchEnd={menu ? () => setMenu() : () => {}}>
-        <ViewListServices>
-          <FlatList
-            ListHeaderComponent={HeaderComponentFlatList()}
-            showsVerticalScrollIndicator={false}
-            data={ExampleServices}
-            keyExtractor={(item) => item.id}
-            renderItem={({item}) => (
-              <Service
-                nameResponsible={item.NameHirer}
-                service={item}
-                icon="chat"
-              />
-            )}
-          />
-        </ViewListServices>
+        <FlatList
+          numColumns={2}
+          ListHeaderComponent={HeaderComponentFlatList}
+          showsVerticalScrollIndicator={false}
+          data={ExampleServices}
+          keyExtractor={(item) => item.id}
+          renderItem={({item}) => <UnitService />}
+        />
+
         {menu}
       </Container>
     </>
   );
 }
+const styles = StyleSheet.create({
+  dot: {
+    color: '#000074',
+  },
+  dotActive: {
+    color: 'rgba(0, 0, 94, 0.2)',
+  },
+});

@@ -2,12 +2,14 @@ import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../../../assets/LogoWG.png';
 import google from '../../../assets/google.png';
+import progress from '../../../assets/progress.json';
 import {Form} from '@unform/mobile';
 import Input from '../../unform/input';
 import {validateLogin} from '../../../backend/validations';
 import ToastDefault from '../../toasts';
 import {useAuth} from '../../../contexts/authContext';
-import * as Progress from 'react-native-progress';
+import LottieView from 'lottie-react-native';
+
 import {
   TitleForm,
   Logo,
@@ -24,7 +26,7 @@ import {
   ViewFormLogin,
 } from './styles';
 
-import {Container, TextButtonLight, ModalLoading} from '../../stylesShared';
+import {Container, TextButtonLight, ModalLoading, wh} from '../../stylesShared';
 
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
@@ -159,11 +161,11 @@ export default function Home({navigation}) {
             animationOutTiming={1000}
             useNativeDriver={true}
             isVisible={modalVisible}>
-            <Progress.CircleSnail
-              thickness={4}
-              spinDuration={1500}
-              indeterminate={true}
-              color={['#606094', '#000074', '#404094']}
+            <LottieView
+              style={{width: wh * 8, height: wh * 8}}
+              source={progress}
+              autoPlay
+              loop
             />
           </ModalLoading>
         </ScrollView>

@@ -8,7 +8,7 @@ import ProfileHirer from '../screens/auth/hirer/profile/index';
 import Addresses from '../screens/auth/hirer/addresses/index';
 import AddService from '../screens/auth/hirer/addService/index';
 import AddAddressMap from '../screens/auth/hirer/addresses/addAdressMap';
-import AddAddressDetails from '../screens/auth/hirer/addresses/addAdressDetails';
+
 import DetailsService from '../screens/auth/detailsService/index';
 import Help from '../screens/auth/help/index';
 
@@ -51,11 +51,7 @@ const AuthRoutes = () => (
       component={AddAddressMap}
       options={{headerShown: false}}
     />
-    <HirerStack.Screen
-      name="AddAddressDetails"
-      component={AddAddressDetails}
-      options={{headerShown: false}}
-    />
+
     <HirerStack.Screen
       name="DetailsService"
       component={DetailsService}

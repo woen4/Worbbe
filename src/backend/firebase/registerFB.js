@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
-import {createFile} from './storage';
-import {createDoc} from './firestore';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 export async function createUser(data) {
   let isClient;
@@ -9,6 +9,16 @@ export async function createUser(data) {
     isClient = false;
   } else {
     isClient = true;
+  }
+
+  function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
+      c,
+    ) {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 
   let response = await auth()
@@ -30,17 +40,20 @@ export async function createUser(data) {
   if (response === false) {
     try {
       //Put photo in storage
-      const dataFile = await createFile('/Avatars/', data.avatar);
+      const ref = storage().ref('Avatars/' + uuidv4());
+      await ref.putFile(data.avatar);
+      const url = await ref.getDownloadURL();
+
       //Creating a doc of user (Collection, name)
       const doc = {
         name: data.name,
         email: data.email,
         phone: data.phone,
         isClient: isClient,
-        avatarRef: dataFile.name,
-        avatarUrl: dataFile.url,
+        avatarUrl: url,
+        addressesCount: 0,
       };
-      await createDoc('Users', uid, doc);
+      await firestore().collection('Users').doc(uid).set(doc);
     } catch {
       response = 'Erro ao realizar cadastro. Código do erro: 001';
     }
@@ -49,44 +62,5 @@ export async function createUser(data) {
     return false;
   } else {
     return response;
-  }
-}
-
-export async function logIn(data) {
-  let back = {
-    message: 'Logado com sucesso',
-    uid: null,
-  };
-  const response = await auth()
-    .signInWithEmailAndPassword(data.email, data.password)
-    .then(() => {
-      return false;
-    })
-    .catch((error) => {
-      if (error.code === 'auth/wrong-password') {
-        return 'Email ou senha incorretos';
-      } else if (error.code === 'auth/user-not-found') {
-        return 'Conta inexistente';
-      } else if (error.code === 'auth/invalid-email') {
-        return 'Email inválido';
-      } else {
-        console.error(error);
-      }
-    });
-  if (response === false) {
-    back.uid = auth().currentUser.uid;
-  } else {
-    back.message = response;
-  }
-
-  return back;
-}
-
-export async function logOut() {
-  try {
-    await auth().signOut();
-    return 'Usuário deslogado!';
-  } catch {
-    return 'Erro ao deslogar';
   }
 }

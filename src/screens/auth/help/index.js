@@ -1,28 +1,34 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Form} from '@unform/mobile';
-import {createHelpDoc} from '../../../backend/firebase/index';
+import {createHelpDoc} from '../../../backend/firebase/helpFB';
 import {validateHelp} from '../../../backend/validations';
 import ToastDefault from '../../toasts';
-import {useAuth} from '../../../contexts/authContext';
+import LottieView from 'lottie-react-native';
+import send from '../../../assets/send.json';
 import {
   TitleHeader,
   Header,
   ButtonIcon,
   Container,
-  s2,
-  h,
+  wh,
 } from '../../stylesShared';
-import {StyleSheet, KeyboardAvoidingView} from 'react-native';
+
+import {KeyboardAvoidingView} from 'react-native';
 import {Labels, InputTitle, InputDescription} from './styles';
 
 export default function Help({navigation}) {
   const formRef = useRef(null);
-  const {user} = useAuth();
+  const [disableSend, setDisableSend] = useState(false);
+  let anim = useRef(null);
   function handleSend(data) {
     if (validateHelp(data) === true) {
-      data.email = user._data.email;
+      anim.play();
       ToastDefault(createHelpDoc(data));
+      setDisableSend(true);
+      setTimeout(function () {
+        anim.pause();
+      }, 2500);
     } else {
       ToastDefault(validateHelp(data));
     }
@@ -35,8 +41,16 @@ export default function Help({navigation}) {
           <Icon name="ios-arrow-back" size={27} color="#000084" />
         </ButtonIcon>
         <TitleHeader>Suporte</TitleHeader>
-        <ButtonIcon onPress={() => formRef.current.submitForm()}>
-          <Icon name="ios-send" size={27} color="#000084" />
+        <ButtonIcon
+          disabled={disableSend}
+          onPress={() => formRef.current.submitForm()}>
+          <LottieView
+            ref={(animation) => {
+              anim = animation;
+            }}
+            style={{width: wh * 10, height: wh * 10}}
+            source={send}
+          />
         </ButtonIcon>
       </Header>
       <Form ref={formRef} onSubmit={handleSend}>
@@ -50,32 +64,3 @@ export default function Help({navigation}) {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  inputTitle: {
-    borderRadius: 40,
-    height: h * 6,
-    marginHorizontal: '4%',
-    paddingLeft: 10,
-    width: '92%',
-    color: '#fff',
-    fontSize: s2,
-    textAlignVertical: 'top',
-    marginBottom: '4%',
-    fontFamily: 'SF Pro Display Bold',
-    backgroundColor: 'rgba(0, 0, 131, 0.5)',
-  },
-  inputDescription: {
-    borderRadius: 30,
-    height: h * 35,
-    marginHorizontal: '4%',
-    paddingBottom: 1,
-    paddingLeft: 10,
-    textAlignVertical: 'top',
-    width: '92%',
-    color: '#fff',
-    fontSize: s2,
-    fontFamily: 'SF Pro Display Bold',
-    backgroundColor: 'rgba(0, 0, 131, 0.5)',
-  },
-});

@@ -2,13 +2,13 @@ import React, {useState, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Form} from '@unform/mobile';
 import Input from '../../unform/input';
-import {createUser} from '../../../backend/firebase/auth';
+import {createUser} from '../../../backend/firebase/registerFB';
 import ImagePicker from 'react-native-image-picker';
 import {validateRegister} from '../../../backend/validations';
 import {ScrollView} from 'react-native';
 import ToastDefault from '../../toasts';
-import * as Progress from 'react-native-progress';
-
+import progress from '../../../assets/progress.json';
+import LottieView from 'lottie-react-native';
 import {
   Container,
   ButtonIcon,
@@ -19,6 +19,7 @@ import {
   HeaderGradient,
   HeaderProfile,
   ButtonCamera,
+  wh,
 } from '../../stylesShared';
 import {PhotoHired, MarginPhoto, ButtonRegister} from './styles';
 
@@ -168,11 +169,11 @@ export default function Register({route, navigation}) {
           animationOutTiming={1000}
           useNativeDriver={true}
           isVisible={modalVisible}>
-          <Progress.CircleSnail
-            thickness={4}
-            spinDuration={1500}
-            indeterminate={true}
-            color={['#606094', '#000074', '#404094']}
+          <LottieView
+            style={{width: wh * 8, height: wh * 8}}
+            source={progress}
+            autoPlay
+            loop
           />
         </ModalLoading>
       </ScrollView>

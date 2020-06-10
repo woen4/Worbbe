@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import InputSimple from '../../unform/inputSimple';
+import Input from '../../unform/input';
 import {SmallText, s3, s2, h} from '../../stylesShared';
 
 export const Labels = styled(SmallText)`
@@ -9,7 +9,7 @@ export const Labels = styled(SmallText)`
   margin-top: 5%;
 `;
 
-export const InputTitle = styled(InputSimple)`
+export const InputTitle = styled(Input)`
   border-radius: 40;
   height: ${h * 6}px;
   margin-horizontal: 4%;
@@ -23,7 +23,7 @@ export const InputTitle = styled(InputSimple)`
   background-color: 'rgba(0, 0, 131, 0.5)';
 `;
 
-export const InputDescription = styled(InputSimple)`
+export const InputDescription = styled(Input)`
   border-radius: 40;
   height: ${h * 35}px;
   margin-horizontal: 4%;
