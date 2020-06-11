@@ -1,3 +1,4 @@
+//Test Commit
 export function validateRegister(data) {
   if (
     data.name == undefined ||
