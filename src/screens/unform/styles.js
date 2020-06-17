@@ -17,15 +17,6 @@ export const ViewInputSimple = styled.View`
   padding: 0% 3% 0% 3%;
 `;
 
-export const InputSimpleStyled = styled.Text`
-  border-bottom-width: 2px;
-  border-color: #000084;
-  color: #000054;
-  margin-top: 3%;
-  padding-bottom: 2%;
-  font-family: 'SF Pro Display Regular';
-`;
-
 export const LabelInput = styled(Text)`
   align-self: flex-start;
   font-size: ${s2}px;

@@ -2,13 +2,13 @@ import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../../../assets/LogoWG.png';
 import google from '../../../assets/google.png';
-import progress from '../../../assets/progress.json';
+import ProgressLottie from '../../../assets/progressLottie.json';
 import {Form} from '@unform/mobile';
 import Input from '../../unform/input';
 import {validateLogin} from '../../../backend/validations';
 import ToastDefault from '../../toasts';
 import {useAuth} from '../../../contexts/authContext';
-import LottieView from 'lottie-react-native';
+import {LottieLoading} from '../../lottieLoading';
 
 import {
   TitleForm,
@@ -26,13 +26,13 @@ import {
   ViewFormLogin,
 } from './styles';
 
-import {Container, TextButtonLight, ModalLoading, wh} from '../../stylesShared';
+import {Container, TextButtonLight} from '../../stylesShared';
 
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
 export default function Home({navigation}) {
   const {fillContext} = useAuth();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
   const isClient = true;
   const formRef = useRef(null);
 
@@ -73,10 +73,10 @@ export default function Home({navigation}) {
 
   async function handleLogin(data) {
     if (validateLogin(data) === true) {
-      setModalVisible(true);
+      setModalLoading(true);
       const response = await fillContext(data);
       ToastDefault(response);
-      setModalVisible(false);
+      setModalLoading(false);
     } else {
       ToastDefault(validateLogin(data));
     }
@@ -152,24 +152,9 @@ export default function Home({navigation}) {
           <HeaderGradientLogin colors={['#000054', '#000074', '#000094']}>
             <Logo source={logo} />
           </HeaderGradientLogin>
-          <ModalLoading
-            backdropColor="#FFF"
-            backdropOpacity={0.8}
-            animationIn="bounceIn"
-            animationOut="bounceOut"
-            animationInTiming={1000}
-            animationOutTiming={1000}
-            useNativeDriver={true}
-            isVisible={modalVisible}>
-            <LottieView
-              style={{width: wh * 8, height: wh * 8}}
-              source={progress}
-              autoPlay
-              loop
-            />
-          </ModalLoading>
         </ScrollView>
       </KeyboardAvoidingView>
+      <LottieLoading visible={modalLoading} source={ProgressLottie} size={9} />
     </Container>
   );
 }

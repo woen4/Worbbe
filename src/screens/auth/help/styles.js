@@ -10,10 +10,10 @@ export const Labels = styled(SmallText)`
 `;
 
 export const InputTitle = styled(Input)`
-  border-radius: 40;
+  border-radius: 40px;
   height: ${h * 6}px;
   margin-horizontal: 4%;
-  padding-left: 10;
+  padding-left: 10px;
   width: 92%;
   color: #fff;
   font-size: ${s2}px;
@@ -24,10 +24,10 @@ export const InputTitle = styled(Input)`
 `;
 
 export const InputDescription = styled(Input)`
-  border-radius: 40;
+  border-radius: 40px;
   height: ${h * 35}px;
   margin-horizontal: 4%;
-  padding-left: 10;
+  padding-left: 10px;
   width: 92%;
   color: #fff;
   font-size: ${s2}px;

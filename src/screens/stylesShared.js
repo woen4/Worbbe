@@ -169,7 +169,7 @@ export const MenuContainer = styled(Animatable.View)`
   flex: 1;
   border-width: 2px;
   width: 45%;
-  top: -1%;
+  top: -3%;
   right: 1%;
   position: absolute;
 `;
@@ -182,7 +182,7 @@ export const MenuContainerLeft = styled(Animatable.View)`
   flex: 1;
   border-width: 2px;
   width: 50%;
-  top: -1%;
+  top: -3%;
   left: 1%;
   position: absolute;
 `;
@@ -221,11 +221,6 @@ export const ButtonLogout = styled.TouchableOpacity`
   height: ${h * 4.6}px;
   width: 20%;
   flex-direction: row;
-`;
-
-export const ModalLoading = styled(Modal)`
-  align-items: center;
-  justify-content: center;
 `;
 
 export const HeaderGradient = styled(LinearGradient)`

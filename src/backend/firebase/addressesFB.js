@@ -11,7 +11,7 @@ export async function linkAdress(marker, name, count) {
 
   const address = {
     name: name,
-    cordinates: createGeoPoint(marker.latitude, marker.longitude),
+    coordinates: createGeoPoint(marker.latitude, marker.longitude),
   };
   const increment = firebase.firestore.FieldValue.increment(1);
   //const responseRead = await firestore().collection('Users').doc(uid).get();
@@ -42,3 +42,9 @@ export async function deleteAddress(name) {
     addressesCount: increment,
   });
 }
+ /*const responseReadSub = await firestore()
+          .collection('Users')
+          .doc(response.uid)
+          .collection('addresses')
+          .get();
+        responseRead._data.addresses = responseReadSub._docs;*/

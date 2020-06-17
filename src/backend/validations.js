@@ -1,4 +1,3 @@
-//Test Commit
 export function validateRegister(data) {
   if (
     data.name == undefined ||
@@ -53,5 +52,21 @@ export function validateProfile(data) {
     return 'Todos os campos devem ser preenchidos';
   } else {
     return true;
+  }
+}
+
+export function validateAddService(data) {
+  if (data.description === '' || data.description === undefined) {
+    return 'Descreva seu serviço';
+  } else if (data.address === 0) {
+    return 'Defina um endereço';
+  } else if (data.date === 'Data') {
+    return 'Defina uma data';
+  } else if (data.timeStart === 'H. Início') {
+    return 'Defina um horário de início';
+  } else if (data.timeEnd === 'H. Término') {
+    return 'Defina um horário de término';
+  } else {
+    return;
   }
 }

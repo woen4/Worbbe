@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Form} from '@unform/mobile';
 import FastImage from 'react-native-fast-image';
+import {useAuth} from '../../../contexts/authContext';
 import {
   Container,
   ButtonIcon,
@@ -26,12 +27,28 @@ import {
 } from './styles';
 import {StyleSheet, ScrollView, View} from 'react-native';
 
-export default function DetailsService({navigation}) {
+export default function DetailsService({route, navigation}) {
+  const item = route.params;
+  const {user} = useAuth();
+  function handleNavigate() {
+    if (user.isClient) {
+      navigation.navigate('HomeHirer');
+    } else {
+      navigation.navigate('FeedRequests');
+    }
+  }
+
+  let price;
+  if (item.price) {
+    price = 'R$ ' + item.price;
+  } else {
+    price = 'Orçamentado';
+  }
   return (
     <Container>
       <ScrollView>
         <Header>
-          <ButtonIcon onPress={() => navigation.goBack()}>
+          <ButtonIcon onPress={handleNavigate}>
             <Icon name="ios-arrow-back" size={28} color="#000084" />
           </ButtonIcon>
 
@@ -40,21 +57,11 @@ export default function DetailsService({navigation}) {
           <ButtonIcon />
         </Header>
         <ContainerDetails>
-          <MediumText>Limpeza pós-obra</MediumText>
-          <SmallText>Domésticos > Limpeza</SmallText>
+          <MediumText>{item.tag}</MediumText>
+          <SmallText>
+            {item.field} > {item.subField}{' '}
+          </SmallText>
           <ViewPhotos>
-            <View>
-              <MarginPhotoClient>
-                <PhotoProfile
-                  source={{
-                    uri:
-                      'https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg',
-                    priority: FastImage.priority.low,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-              </MarginPhotoClient>
-            </View>
             <View>
               <MarginPhotoServer>
                 <PhotoProfile
@@ -67,13 +74,19 @@ export default function DetailsService({navigation}) {
                 />
               </MarginPhotoServer>
             </View>
+            <View>
+              <MarginPhotoClient>
+                <PhotoProfile
+                  source={{
+                    uri: user.avatarUrl,
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </MarginPhotoClient>
+            </View>
           </ViewPhotos>
           <Form>
-            <ViewText>
-              <SmallText>Nome do cliente:</SmallText>
-              <TextSimple style={styles.input}>Luiz Eduardo</TextSimple>
-            </ViewText>
-
             <ViewText>
               <SmallText>Nome do profissional:</SmallText>
               <TextSimple style={styles.input}>Kaio Woen</TextSimple>
@@ -81,26 +94,28 @@ export default function DetailsService({navigation}) {
 
             <ViewText>
               <SmallText>Preço:</SmallText>
-              <TextSimple>Orçamentado</TextSimple>
+              <TextSimple>{price}</TextSimple>
+            </ViewText>
+
+            <ViewText>
+              <SmallText>Nome do endereço:</SmallText>
+              <TextSimple>{item.location.name}</TextSimple>
             </ViewText>
           </Form>
 
           <SmallText>Descrição:</SmallText>
-          <TextDescription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            blandit magna eget enim pretium, ac facilisis arcu facilisis.
-            Curabitur consectetur turpis vel massa eleifend aliquam. Vivamus
-            porttitor dui in diam hendrerit lacinia.{' '}
-          </TextDescription>
+          <TextDescription>{item.description}</TextDescription>
 
           <SuportDateTime>
             <ViewDateTime>
               <Icon name="md-calendar" size={27} color="#000054" />
-              <MediumText>03/05/20</MediumText>
+              <MediumText>{item.date}</MediumText>
             </ViewDateTime>
             <ViewDateTime>
               <Icon name="md-time" size={27} color="#000054" />
-              <MediumText>15:00 - 17:00</MediumText>
+              <MediumText>
+                {item.timeStart} - {item.timeEnd}
+              </MediumText>
             </ViewDateTime>
           </SuportDateTime>
         </ContainerDetails>

@@ -7,14 +7,13 @@ import ImagePicker from 'react-native-image-picker';
 import {validateRegister} from '../../../backend/validations';
 import {ScrollView} from 'react-native';
 import ToastDefault from '../../toasts';
-import progress from '../../../assets/progress.json';
-import LottieView from 'lottie-react-native';
+import ProgressLottie from '../../../assets/progressLottie.json';
+import {LottieLoading} from '../../lottieLoading';
 import {
   Container,
   ButtonIcon,
   TitleHeaderLight,
   TextButtonLight,
-  ModalLoading,
   ViewForm,
   HeaderGradient,
   HeaderProfile,
@@ -25,7 +24,7 @@ import {PhotoHired, MarginPhoto, ButtonRegister} from './styles';
 
 export default function Register({route, navigation}) {
   const [avatar, setAvatar] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
   const formRef = useRef(null);
   const {isClient} = route.params;
 
@@ -38,21 +37,21 @@ export default function Register({route, navigation}) {
 
   async function handleRegister(data) {
     data.avatar = avatar;
-    if (validateRegister(data) === true) {
-      setModalVisible(true);
-      data.isClient = isClient;
-      data.avatar = avatar.path;
-      const response = await createUser(data);
-      setModalVisible(false);
-      if (response === false) {
-        ToastDefault('Cadastro realizado!');
-        navigation.navigate('Login');
-      } else {
-        ToastDefault(response);
-      }
+    //if (validateRegister(data) === true) {
+    setModalLoading(true);
+    data.isClient = isClient;
+    //data.avatar = avatar.path;
+    const response = await createUser(data);
+    setModalLoading(false);
+    if (response === false) {
+      ToastDefault('Cadastro realizado!');
+      navigation.navigate('Login');
     } else {
-      ToastDefault(validateRegister(data));
+      ToastDefault(response);
     }
+    // } else {
+    ToastDefault(validateRegister(data));
+    // }
   }
 
   function imagePickerCallback(data) {
@@ -160,22 +159,11 @@ export default function Register({route, navigation}) {
             </ButtonCamera>
           </MarginPhoto>
         </HeaderGradient>
-        <ModalLoading
-          backdropColor="#FFF"
-          backdropOpacity={0.8}
-          animationIn="bounceIn"
-          animationOut="bounceOut"
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          useNativeDriver={true}
-          isVisible={modalVisible}>
-          <LottieView
-            style={{width: wh * 8, height: wh * 8}}
-            source={progress}
-            autoPlay
-            loop
-          />
-        </ModalLoading>
+        <LottieLoading
+          visible={modalLoading}
+          source={ProgressLottie}
+          size={8}
+        />
       </ScrollView>
     </Container>
   );

@@ -1,35 +1,42 @@
-import React from 'react';
+import React, {memo} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import {idToName} from '../../../auth/idToName';
 import {
   ContainerService,
   Title,
   ViewRowBetween,
   ViewRow,
   ButtonChat,
+  ViewCalendar,
 } from './styles';
 
 import {SmallText} from '../../../stylesShared';
 
-export default function UnitService({nameResponsible, service, icon}) {
+function UnitService({item}) {
   const navigation = useNavigation();
+  let price;
+  if (item.price) {
+    price = 'R$ ' + item.price;
+  } else {
+    price = 'Orçamentado';
+  }
+
+  const nameService = idToName(item.field, item.subField);
+  item.field = nameService.field;
+  item.subField = nameService.subField;
 
   return (
-    <ContainerService onPress={() => navigation.navigate('DetailsService')}>
-      <Title>Limpeza</Title>
-      <SmallText>Kaio Woen</SmallText>
+    <ContainerService
+      onPress={() => navigation.navigate('DetailsService', item)}>
+      <Title>{nameService.subField}</Title>
+      <SmallText>-</SmallText>
+      <ViewCalendar>
+        <Icon name="calendar" size={20} color="#000084" />
+        <SmallText>{item.date}</SmallText>
+      </ViewCalendar>
       <ViewRowBetween>
-        <ViewRow>
-          <Icon name="calendar" size={20} color="#000084" />
-          <SmallText>15/06/20</SmallText>
-        </ViewRow>
-        <ViewRow>
-          <Icon name="clock-outline" size={20} color="#000084" />
-          <SmallText>15:00</SmallText>
-        </ViewRow>
-      </ViewRowBetween>
-      <ViewRowBetween>
-        <SmallText>Orçamentado</SmallText>
+        <SmallText>{price}</SmallText>
         <ButtonChat onPress={() => navigation.navigate('Chat')}>
           <Icon name="chat" size={25} color="#000084" />
         </ButtonChat>
@@ -37,3 +44,5 @@ export default function UnitService({nameResponsible, service, icon}) {
     </ContainerService>
   );
 }
+
+export default React.memo(UnitService);

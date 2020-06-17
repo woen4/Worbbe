@@ -8,8 +8,8 @@ import {useAuth} from '../../../../contexts/authContext';
 import {updateProfile} from '../../../../backend/firebase/profileFB';
 import {validateProfile} from '../../../../backend/validations';
 import FastImage from 'react-native-fast-image';
-import LottieView from 'lottie-react-native';
-import progress from '../../../../assets/progress.json';
+import ProfileLoading from '../../../../assets/profileLottie.json';
+import {LottieLoading} from '../../../lottieLoading';
 import {
   Container,
   ButtonIcon,
@@ -20,27 +20,25 @@ import {
   ButtonLogout,
   SmallText,
   PhotoProfile,
-  ModalLoading,
-  wh,
 } from '../../../stylesShared';
 import {ScrollView} from 'react-native';
 import {MarginPhoto, HeaderProfile} from './styles';
 
 export default function ProfileHirer({navigation}) {
-  const {user, deleteContext, refresh} = useAuth();
-  const [avatar, setAvatar] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
   const [editableInputs, setEditableInputs] = useState(false);
   const [icon, setIcon] = useState('md-create');
   const formRef = useRef(null);
+  const {user, deleteContext, refresh} = useAuth();
 
   async function saveUpdate(data) {
     if (validateProfile(data) === true) {
-      setModalVisible(true);
+      setModalLoading(true);
       data.avatar = avatar;
       data.avatarUrl = user.avatarUrl;
       const response = await updateProfile(data);
-      setModalVisible(false);
+      setModalLoading(false);
       ToastDefault(response);
       if (response === 'Perfil atualizado!') {
         refresh();
@@ -66,7 +64,6 @@ export default function ProfileHirer({navigation}) {
     if (!data.uri) {
       return;
     }
-
     setAvatar(data);
   }
 
@@ -161,22 +158,11 @@ export default function ProfileHirer({navigation}) {
             </ButtonCamera>
           </MarginPhoto>
         </HeaderGradient>
-        <ModalLoading
-          backdropColor="#FFF"
-          backdropOpacity={0.8}
-          animationIn="bounceIn"
-          animationOut="bounceOut"
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          useNativeDriver={true}
-          isVisible={modalVisible}>
-          <LottieView
-            style={{width: wh * 8, height: wh * 8}}
-            source={progress}
-            autoPlay
-            loop
-          />
-        </ModalLoading>
+        <LottieLoading
+          visible={modalLoading}
+          source={ProfileLoading}
+          size={8}
+        />
       </ScrollView>
     </Container>
   );

@@ -8,8 +8,8 @@ import {useAuth} from '../../../../contexts/authContext';
 import {updateProfile} from '../../../../backend/firebase/profileFB';
 import {validateProfile} from '../../../../backend/validations';
 import FastImage from 'react-native-fast-image';
-import progress from '../../../../assets/progress.json';
-import LottieView from 'lottie-react-native';
+import progress from '../../../../assets/progressLottie.json';
+import {LottieView} from 'lottie-react-native';
 import {
   Container,
   ButtonIcon,
@@ -26,6 +26,7 @@ import {
 } from '../../../stylesShared';
 import {ScrollView} from 'react-native';
 import {MarginPhoto, HeaderProfile, ViewRating} from './styles';
+import {LottieLoading} from '../../../lottieLoading';
 
 export default function ProfileHired({navigation}) {
   const {user, deleteContext, refresh} = useAuth();
@@ -179,22 +180,7 @@ export default function ProfileHired({navigation}) {
             </ButtonCamera>
           </MarginPhoto>
         </HeaderGradient>
-        <ModalLoading
-          backdropColor="#FFF"
-          backdropOpacity={0.8}
-          animationIn="bounceIn"
-          animationOut="bounceOut"
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          useNativeDriver={true}
-          isVisible={modalVisible}>
-          <LottieView
-            style={{width: wh * 8, height: wh * 8}}
-            source={progress}
-            autoPlay
-            loop
-          />
-        </ModalLoading>
+        <LottieLoading visible={modalVisible} source={progress} size={8} />
       </ScrollView>
     </Container>
   );

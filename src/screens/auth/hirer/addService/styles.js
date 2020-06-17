@@ -36,7 +36,7 @@ export const HeaderProfile = styled.View`
 
 export const FormAddService = styled(ViewForm)`
   padding: ${h * 2}px ${w * 0}px ${h * 2}px ${w * 0}px;
-  margin: 2% 5% 3% 5%;
+  margin: 0% 5% 3% 5%;
   elevation: 10;
   border-width: 1px;
   border-color: #999;
@@ -98,6 +98,7 @@ export const TextFooter = styled(MediumText)`
   margin-top: 8%;
   font-size: ${s1}px;
   color: #000084;
+  margin-bottom: -3%;
 `;
 
 export const DateTimePicker = styled(DateTimePickerModal)``;
@@ -113,10 +114,14 @@ export const ButtonIconAddress = styled.TouchableOpacity`
 `;
 
 export const InputPrice = styled(Input)`
-  width: 60%;
+  width: 80%;
+  margin-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: transparent;
   color: #000054;
   font-size: ${s2}px;
-  margin-left: 7%;
+  margin-right: -20%;
   font-family: 'SF Pro Display Bold';
 `;
 
@@ -125,11 +130,13 @@ export const InputDescription = styled(Input)`
   width: 85%;
   font-family: 'SF Pro Display Regular';
   font-size: ${s1}px;
-  margin-top: 5%;
+  margin-top: 2%;
+  background-color: transparent;
   margin-bottom: 7%;
-  padding-horizontal: 1.5%;
+  color: #333;
+  padding-left: ${w * 1}px;
   padding-top: 0.5%;
-  text-align: justify;
+  text-align: left;
   text-align-vertical: top;
   border-radius: 6px;
   border-width: 0.3px;

@@ -9,7 +9,7 @@ import Addresses from '../screens/auth/hirer/addresses/index';
 import AddService from '../screens/auth/hirer/addService/index';
 import AddAddressMap from '../screens/auth/hirer/addresses/addAdressMap';
 
-import DetailsService from '../screens/auth/detailsService/index';
+import DetailsService from '../screens/auth/detailsService/hirer';
 import Help from '../screens/auth/help/index';
 
 const HirerStack = createStackNavigator();

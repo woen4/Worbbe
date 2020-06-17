@@ -10,12 +10,12 @@ import {
   Header,
 } from '../../../stylesShared';
 
-import {FlatList} from 'react-native';
+import {FlatList, PermissionsAndroid} from 'react-native';
 
 export default function Addresses({navigation}) {
+  const {user, refresh} = useAuth();
   const [addresses, setAddresses] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
-  const {user} = useAuth();
 
   async function getAddresses() {
     const userAddresses = user.addresses;
@@ -33,8 +33,8 @@ export default function Addresses({navigation}) {
     getAddresses();
   }, []);
 
-  const remove = (id) => {
-    deleteAddress(id);
+  const remove = async (id) => {
+    await deleteAddress(id);
     function filter(address) {
       if (address.id !== id) {
         return address;
@@ -42,8 +42,16 @@ export default function Addresses({navigation}) {
     }
     const newAddresses = addresses.filter(filter);
     setAddresses(newAddresses);
+    refresh();
     setRefreshList(!refreshList);
   };
+
+  function AddAddress() {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+    navigation.navigate('AddAddressMap');
+  }
 
   return (
     <Container>
@@ -54,7 +62,7 @@ export default function Addresses({navigation}) {
 
         <TitleHeader>Endereços</TitleHeader>
 
-        <ButtonIcon onPress={() => navigation.navigate('AddAddressMap')}>
+        <ButtonIcon onPress={() => AddAddress()}>
           <Icon name="md-add-circle-outline" size={26} color="#000084" />
         </ButtonIcon>
       </Header>

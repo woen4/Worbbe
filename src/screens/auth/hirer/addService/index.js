@@ -1,9 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Form} from '@unform/mobile';
 import {Picker} from '@react-native-community/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {useAuth} from '../../../../contexts/authContext';
+import {validateAddService} from '../../../../backend/validations';
+import {formatDate, formatTime} from './formatDateTime';
+import ToastDefault from '../../../toasts';
+import {CreateService} from '../../../../backend/firebase/addServiceFB';
+import {LottieLoading} from '../../../lottieLoading';
+import ServiceLottie from '../../../../assets/serviceLottie.json';
 import {
   Container,
   ButtonIcon,
@@ -31,7 +38,143 @@ import {
 import {Alert} from 'react-native';
 
 export default function AddService({navigation}) {
-  const [picker, setPicker] = useState('');
+  const {user} = useAuth();
+  const [modalLoading, setModalLoading] = useState(false);
+  const formDescriptionRef = useRef(null);
+  const formPriceRef = useRef(null);
+  const userAddresses = user.addresses;
+  const [fieldIndex, setFieldIndex] = useState(0);
+  const [subFieldIndex, setSubFieldIndex] = useState(0);
+  const [specificIndex, setSpecificIndex] = useState(0);
+  const [addressIndex, setAddressIndex] = useState(0);
+  const [subFields, setSubFields] = useState([]);
+  const [specifics, setSpecifics] = useState([]);
+  let descriptionData;
+  let priceData;
+  let addresses = [];
+  let count = 0;
+  userAddresses.forEach((address) => {
+    addresses.push(address._data);
+    addresses[count].id = userAddresses[count]._ref._documentPath._parts[3];
+    count = count + 1;
+  });
+
+  useEffect(() => {
+    setSubFields(
+      optionsPicker[fieldIndex].subField.map((item) => (
+        <Picker.Item label={item.name} value={item.id} />
+      )),
+    );
+    setSpecifics(
+      optionsPicker[fieldIndex].subField[subFieldIndex].specific.map((item) => (
+        <Picker.Item label={item.name} value={item.id} />
+      )),
+    );
+  }, [fieldIndex, optionsPicker, subFieldIndex]);
+
+  async function handleConfirm() {
+    formDescriptionRef.current.submitForm();
+    formPriceRef.current.submitForm();
+    const data = {};
+    data.description = descriptionData.description;
+    data.timeStart = valueTimeStart;
+    data.timeEnd = valueTimeEnd;
+    data.date = valueDate;
+    data.address = addresses.length;
+    const responseValidate = validateAddService(data);
+    if (responseValidate === undefined) {
+      data.address = userAddresses[addressIndex]._data;
+      setModalLoading(true);
+      data.price = priceData.Price;
+      data.tag =
+        optionsPicker[fieldIndex].subField[subFieldIndex].specific[
+          specificIndex
+        ].name;
+      data.field = fieldIndex;
+      data.subField = subFieldIndex;
+      const response = await CreateService(data);
+      if (response !== undefined) {
+        ToastDefault('Serviço solicitado');
+        navigation.goBack();
+      } else {
+        ToastDefault('Erro ao solicitar serviço');
+      }
+      setModalLoading(false);
+    } else {
+      ToastDefault(responseValidate);
+    }
+  }
+
+  const optionsPicker = [
+    {
+      id: 0,
+      name: 'Doméstico',
+      subField: [
+        {
+          id: 0,
+          name: 'Limpeza',
+          specific: [
+            {
+              id: 0,
+              name: 'Limpeza de telhado',
+            },
+            {
+              id: 1,
+              name: 'Limpeza de piso',
+            },
+          ],
+        },
+        {
+          id: 1,
+          name: 'Culinária',
+          specific: [
+            {
+              id: 0,
+              name: 'Festas',
+            },
+            {
+              id: 1,
+              name: 'Casual',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 1,
+      name: 'Elétricos',
+      subField: [
+        {
+          id: 0,
+          name: 'Segurança',
+          specific: [
+            {
+              id: 0,
+              name: 'Instalação de cerca elétrica',
+            },
+            {
+              id: 1,
+              name: 'Instalação de alarmes',
+            },
+          ],
+        },
+        {
+          id: 1,
+          name: 'Estrutura de edificações',
+          specific: [
+            {
+              id: 0,
+              name: 'Instalação de circuitos',
+            },
+            {
+              id: 1,
+              name: 'Manutenção ',
+            },
+          ],
+        },
+      ],
+    },
+  ];
 
   const [pickerDateVisible, setPickerDateVisible] = useState(false);
   const [pickerTimeStartVisible, setPickerTimeStartVisible] = useState(false);
@@ -61,38 +204,15 @@ export default function AddService({navigation}) {
 
   function getValueDatePicker({Date}) {
     managerPickerDateVisible();
-    let day = Date.getDate();
-    if (day < 10) {
-      day = '0' + day;
-    }
-    let month = Date.getUTCMonth() + 1;
-    if (month < 10) {
-      month = '0' + month;
-    }
-    let fullYear = Date.getYear() + '';
-    let year = fullYear.slice(1, 3);
-    let date = day + '/' + month + '/' + year;
-    setValueDate(date);
+    setValueDate(formatDate(Date));
   }
   function getValueTimeStartPicker({Date}) {
     managerPickerTimeStartVisible();
-    let hours = Date.getHours();
-    if (hours < 10) {
-      hours = '0' + hours;
-    }
-    let minutes = Date.getUTCMinutes();
-    let timeStart = hours + ':' + minutes;
-    setValueTimeStart(timeStart);
+    setValueTimeStart(formatTime(Date));
   }
   function getValueTimeEndPicker({Date}) {
     managerPickerTimeEndVisible();
-    let hours = Date.getHours();
-    if (hours < 10) {
-      hours = '0' + hours;
-    }
-    let minutes = Date.getUTCMinutes();
-    let timeEnd = hours + ':' + minutes;
-    setValueTimeEnd(timeEnd);
+    setValueTimeEnd(formatTime(Date));
   }
 
   return (
@@ -110,39 +230,38 @@ export default function AddService({navigation}) {
           <ViewPicker>
             <PickerStyled
               mode="dropdown"
-              selectedValue={picker}
-              onValueChange={(itemValue) => setPicker(itemValue)}>
-              <Picker.Item label="Área" value="área" />
-              <Picker.Item label="Domésticos" value="Domésticos" />
+              selectedValue={fieldIndex}
+              onValueChange={(itemValue) => setFieldIndex(itemValue)}>
+              {optionsPicker.map((item) => (
+                <Picker.Item label={item.name} value={item.id} />
+              ))}
             </PickerStyled>
           </ViewPicker>
           <ViewPicker>
             <PickerStyled
               mode="dropdown"
-              selectedValue={picker}
-              onValueChange={(itemValue) => setPicker(itemValue)}>
-              <Picker.Item label="Campo" value="Campo" />
-              <Picker.Item label="Limpeza" value="Limpeza" />
+              selectedValue={subFieldIndex}
+              onValueChange={(itemValue) => setSubFieldIndex(itemValue)}>
+              {subFields}
             </PickerStyled>
           </ViewPicker>
           <ViewPicker>
             <PickerStyled
               mode="dropdown"
-              selectedValue={picker}
-              onValueChange={(itemValue) => setPicker(itemValue)}>
-              <Picker.Item label="Sub campo" value="Sub campo" />
-              <Picker.Item label="Limpeza pós obra" value="Limpeza pós obra" />
+              selectedValue={specificIndex}
+              onValueChange={(itemValue) => setSpecificIndex(itemValue)}>
+              {specifics}
             </PickerStyled>
           </ViewPicker>
           <ViewPickerLocal>
             <PickerLocal>
               <PickerStyled
                 mode="dropdown"
-                selectedValue={picker}
-                onValueChange={(itemValue) => setPicker(itemValue)}>
-                <Picker.Item label="Local" value="Local" />
-                <Picker.Item label="Casa" value="Casa" />
-                <Picker.Item label="Trabalho" value="Trabalho" />
+                selectedValue={addressIndex}
+                onValueChange={(itemValue) => setAddressIndex(itemValue)}>
+                {addresses.map((item) => (
+                  <Picker.Item label={item.name} value={item.id} />
+                ))}
               </PickerStyled>
             </PickerLocal>
             <ButtonIconAddress
@@ -167,9 +286,9 @@ export default function AddService({navigation}) {
             </ButtonDateTime>
             <ButtonDateTime>
               <Icon2 name="currency-usd" size={27} color="#000054" />
-              <Form>
+              <Form ref={formPriceRef} onSubmit={(data) => (priceData = data)}>
                 <InputPrice
-                  maxLength={4}
+                  maxLength={6}
                   placeholderTextColor="#999"
                   placeholder="00,00"
                   name="Price"
@@ -178,13 +297,17 @@ export default function AddService({navigation}) {
               </Form>
             </ButtonDateTime>
           </SuportDateTime>
-          <Form>
+          <Form
+            ref={formDescriptionRef}
+            onSubmit={(data) => (descriptionData = data)}>
             <InputDescription
+              maxLength={50}
+              multiline={true}
               placeholder="Descreva seu serviço aqui..."
               name="description"
             />
           </Form>
-          <ButtonLight onPress={alertConfirmation}>
+          <ButtonLight onPress={handleConfirm}>
             <TextButtonLight>Confirmar</TextButtonLight>
           </ButtonLight>
 
@@ -209,6 +332,7 @@ export default function AddService({navigation}) {
           <TextFooter>Para orçamentar deixe o preço em branco*⠀</TextFooter>
         </FormAddService>
       </ScrollBlue>
+      <LottieLoading visible={modalLoading} source={ServiceLottie} size={30} />
     </Container>
   );
 }

@@ -40,9 +40,9 @@ export async function createUser(data) {
   if (response === false) {
     try {
       //Put photo in storage
-      const ref = storage().ref('Avatars/' + uuidv4());
-      await ref.putFile(data.avatar);
-      const url = await ref.getDownloadURL();
+      // const ref = storage().ref('Avatars/' + uuidv4());
+      // await ref.putFile(data.avatar);
+      // const url = await ref.getDownloadURL();
 
       //Creating a doc of user (Collection, name)
       const doc = {
@@ -50,7 +50,9 @@ export async function createUser(data) {
         email: data.email,
         phone: data.phone,
         isClient: isClient,
-        avatarUrl: url,
+        disabled: !isClient,
+        avatarUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/1024px-Missing_avatar.svg.png',
         addressesCount: 0,
       };
       await firestore().collection('Users').doc(uid).set(doc);

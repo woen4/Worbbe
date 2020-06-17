@@ -5,7 +5,7 @@ import {createHelpDoc} from '../../../backend/firebase/helpFB';
 import {validateHelp} from '../../../backend/validations';
 import ToastDefault from '../../toasts';
 import LottieView from 'lottie-react-native';
-import send from '../../../assets/send.json';
+import send from '../../../assets/sendLottie.json';
 import {
   TitleHeader,
   Header,
@@ -20,15 +20,15 @@ import {Labels, InputTitle, InputDescription} from './styles';
 export default function Help({navigation}) {
   const formRef = useRef(null);
   const [disableSend, setDisableSend] = useState(false);
-  let anim = useRef(null);
+  var anim = useRef(null);
   function handleSend(data) {
     if (validateHelp(data) === true) {
       anim.play();
-      ToastDefault(createHelpDoc(data));
-      setDisableSend(true);
-      setTimeout(function () {
-        anim.pause();
+      setTimeout(() => {
+        anim.current.pause();
       }, 2500);
+      setDisableSend(true);
+      ToastDefault(createHelpDoc(data));
     } else {
       ToastDefault(validateHelp(data));
     }
@@ -56,9 +56,9 @@ export default function Help({navigation}) {
       <Form ref={formRef} onSubmit={handleSend}>
         <KeyboardAvoidingView behavior="height">
           <Labels>Assunto:</Labels>
-          <InputTitle name="title" />
+          <InputTitle name="title" label="0" />
           <Labels>Descrição:</Labels>
-          <InputDescription name="description" />
+          <InputDescription name="description" label="0" />
         </KeyboardAvoidingView>
       </Form>
     </Container>

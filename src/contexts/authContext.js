@@ -11,13 +11,21 @@ export const AuthProvider = ({children}) => {
   }, []);
 
   async function verifyLoged() {
-    const response = auth().currentUser;
+    const userAuth = auth().currentUser;
+    if (userAuth === null || userAuth === undefined) {
+      const response = await firestore()
+        .collection('Users')
+        .doc(userAuth.uid)
+        .get();
+      setUser(response._data);
+    }
+    /*
     if (response != null) {
       const responseRead = await firestore()
         .collection('Users')
         .doc(response.uid)
         .get();
-      if (responseRead._data.disable === true) {
+      if (responseRead._data.disabled === true) {
         setUser(null);
       } else {
         const responseReadSub = await firestore()
@@ -29,31 +37,25 @@ export const AuthProvider = ({children}) => {
         setUser(responseRead._data);
       }
     } else {
-      setUser(null);
-    }
+      setUser(response);
+    }*/
   }
 
   async function fillContext(data) {
     const response = await logIn(data);
-    if (response.uid != null) {
-      const responseRead = await firestore()
-        .collection('Users')
-        .doc(response.uid)
-        .get();
-      if (responseRead._data.disable === true) {
+
+    if (response === undefined || response === null) {
+      const uid = auth().currentUser.uid;
+      const responseRead = await firestore().collection('Users').doc(uid).get();
+      if (responseRead._data.disabled === true) {
         setUser(null);
-        response.message = 'Conta Desativada';
+        return 'Conta Desativada';
       } else {
-        const responseReadSub = await firestore()
-          .collection('Users')
-          .doc(response.uid)
-          .collection('addresses')
-          .get();
-        responseRead._data.addresses = responseReadSub._docs;
         setUser(responseRead._data);
+        return 'Usuário Logado';
       }
     }
-    return response.message;
+    return response;
   }
 
   async function refresh() {
@@ -78,14 +80,10 @@ export function useAuth() {
 }
 
 async function logIn(data) {
-  let back = {
-    message: 'Logado com sucesso',
-    uid: null,
-  };
-  const response = await auth()
+  await auth()
     .signInWithEmailAndPassword(data.email, data.password)
     .then(() => {
-      return false;
+      return;
     })
     .catch((error) => {
       if (error.code === 'auth/wrong-password') {
@@ -98,13 +96,6 @@ async function logIn(data) {
         console.error(error);
       }
     });
-  if (response === false) {
-    back.uid = auth().currentUser.uid;
-  } else {
-    back.message = response;
-  }
-
-  return back;
 }
 
 async function logOut() {

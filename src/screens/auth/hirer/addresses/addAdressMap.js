@@ -7,6 +7,8 @@ import {useAuth} from '../../../../contexts/authContext';
 import ToastDefault from '../../../toasts';
 import {linkAdress} from '../../../../backend/firebase/addressesFB';
 import Geolocation from '@react-native-community/geolocation';
+import {LottieLoading} from '../../../lottieLoading';
+import PinLottie from '../../../../assets/pinLottie.json';
 import {
   Container,
   ButtonIcon,
@@ -23,11 +25,13 @@ export default function AddAddressMap({navigation}) {
   const formRef = useRef(null);
   const {user, refresh} = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
   const [marker, setMarker] = useState({
     latitude: 0,
     longitude: 0,
   });
   useEffect(() => {
+    setModalLoading(true);
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
@@ -42,12 +46,14 @@ export default function AddAddressMap({navigation}) {
   async function handleDefineLocal(data) {
     if (data.nameAddress != '' && data.nameAddress != undefined) {
       if (user.addressesCount <= 6) {
+        setModalLoading(true);
         const response = await linkAdress(
           marker,
           data.nameAddress,
           user.addressesCount,
         );
         setModalVisible(false);
+        setModalLoading(false);
         ToastDefault(response);
         navigation.navigate('HomeHirer');
         refresh();
@@ -73,6 +79,7 @@ export default function AddAddressMap({navigation}) {
         <MapView
           showsMyLocationButton={true}
           onMapReady={() => {
+            setModalLoading(false);
             PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             );
@@ -115,6 +122,7 @@ export default function AddAddressMap({navigation}) {
           </ButtonTransparent>
         </Form>
       </ModalNameAddress>
+      <LottieLoading visible={modalLoading} source={PinLottie} size={11} />
     </>
   );
 }
