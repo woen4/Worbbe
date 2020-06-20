@@ -1,21 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import service from '../../../assets/service.jpeg';
 import logo from '../../../assets/LogoWG.png';
 import {TitleCards, ImgCard, ScrollCards, Logo, ViewImage} from './styles';
 import {Container} from '../../stylesShared';
-import {ScrollView} from 'react-native';
+import {ScrollView, PermissionsAndroid} from 'react-native';
 
 export default function Home({navigation}) {
+  useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+  }, []);
   return (
     <Container>
       <ScrollView>
         <ViewImage>
-          <Logo style={{resizeMode: 'contain'}} source={logo} />
+          <Logo source={logo} />
         </ViewImage>
-        <ScrollCards style={{elevation: 10}}>
+        <ScrollCards>
           <TitleCards> Serviços Hidráulicos: </TitleCards>
           <ScrollView
-            onTouchEnd={() => navigation.navigate('Login')}
+            onTouchEnd={() => navigation.navigate('Choose')}
             horizontal
             showsHorizontalScrollIndicator={false}>
             <ImgCard source={service} />

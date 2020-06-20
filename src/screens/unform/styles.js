@@ -48,8 +48,9 @@ export const TextInput = styled.TextInput`
   padding-left: 40px;
   width: 92%;
   color: #fff;
+  padding-bottom: 8px;
   font-size: ${s2}px;
-  text-align-vertical: top;
+  text-align-vertical: bottom;
   margin-bottom: 4%;
   font-family: 'SF Pro Display Bold';
   background-color: 'rgba(0, 0, 131, 0.5)';

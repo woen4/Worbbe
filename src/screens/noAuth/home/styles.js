@@ -26,11 +26,13 @@ export const ViewImage = styled.View`
 
 export const Logo = styled.Image`
   flex: 1;
+  resize-mode: contain;
 `;
 
 export const ScrollCards = styled.View`
   background-color: #fff;
   flex: 1;
+  elevation: 10;
   margin: ${h * 2}px ${w * 5}px ${h * 2}px ${w * 5}px;
   padding: ${h * 1}px ${w * 2.5}px ${h * 1.5}px ${w * 2.5}px;
 `;

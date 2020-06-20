@@ -36,41 +36,6 @@ export default function Home({navigation}) {
   const isClient = true;
   const formRef = useRef(null);
 
-  const alertAttention = () =>
-    Alert.alert(
-      'Atenção',
-      'Você profissional irá solicitar o cadastro em nossa plataforma, e após isso entraremos em contato via telefone para a validação de suas habilidades como profissional e requisição de outros dados. Aguarde ser validado para fazer login em nossa plataforma.',
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-            navigation.navigate('Register', {});
-          },
-        },
-      ],
-      {cancelable: true},
-    );
-  const alertConfirmation = () =>
-    Alert.alert(
-      'Realizar cadastro como:',
-      '',
-      [
-        {
-          text: 'Profissional',
-          onPress: () => {
-            alertAttention();
-          },
-        },
-        {
-          text: 'Cliente',
-          onPress: () => {
-            navigation.navigate('Register', {isClient});
-          },
-        },
-      ],
-      {cancelable: true},
-    );
-
   async function handleLogin(data) {
     if (validateLogin(data) === true) {
       setModalLoading(true);
@@ -87,13 +52,13 @@ export default function Home({navigation}) {
       <KeyboardAvoidingView>
         <ScrollView>
           <ViewFormLogin>
-            <TitleForm>LOGIN</TitleForm>
+            <TitleForm>Worbbe</TitleForm>
             <Form ref={formRef} onSubmit={handleLogin}>
               <Input
                 label="0"
                 icon="ios-mail"
                 iconFamily="Ionicons"
-                iconSize={28}
+                iconSize={25}
                 name="email"
                 backgroundColor="rgba(0, 0, 131, 0.5)"
                 autoCorrect={false}
@@ -108,7 +73,7 @@ export default function Home({navigation}) {
                 label="0"
                 icon="ios-lock"
                 iconFamily="Ionicons"
-                iconSize={28}
+                iconSize={25}
                 name="password"
                 backgroundColor="rgba(0, 0, 131, 0.5)"
                 placeholderTextColor="#fff"
@@ -120,12 +85,15 @@ export default function Home({navigation}) {
             </Form>
 
             <ButtonLogin onPress={() => formRef.current.submitForm()}>
-              <TextButtonLight>Login</TextButtonLight>
+              <TextButtonLight>Entrar</TextButtonLight>
             </ButtonLogin>
 
             <SmallTextWithMargin>
               Não tem uma conta?
-              <SmallTextRegister onPress={alertConfirmation}>
+              <SmallTextRegister
+                onPress={() => {
+                  navigation.navigate('Choose');
+                }}>
                 {' '}
                 Cadastre-se
               </SmallTextRegister>

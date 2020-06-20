@@ -58,14 +58,10 @@ export function validateProfile(data) {
 export function validateAddService(data) {
   if (data.description === '' || data.description === undefined) {
     return 'Descreva seu serviço';
-  } else if (data.address === 0) {
+  } else if (data.location === 0) {
     return 'Defina um endereço';
-  } else if (data.date === 'Data') {
-    return 'Defina uma data';
-  } else if (data.timeStart === 'H. Início') {
-    return 'Defina um horário de início';
-  } else if (data.timeEnd === 'H. Término') {
-    return 'Defina um horário de término';
+  } else if (data.dateTime === 'Data e horário') {
+    return 'Defina uma data e horário';
   } else {
     return;
   }

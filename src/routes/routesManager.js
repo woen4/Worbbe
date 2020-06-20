@@ -10,7 +10,7 @@ const Routes = () => {
   if (user != null) {
     if (user.isClient === true) {
       return <HirerRoutes />;
-    } else {
+    } else if (user.isClient === false) {
       return <HiredRoutes />;
     }
   } else {

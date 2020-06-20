@@ -5,6 +5,7 @@ import Home from '../screens/noAuth/home/index';
 import Login from '../screens/noAuth/login/index';
 import Register from '../screens/noAuth/register/index';
 import Help from '../screens/auth/help/index';
+import Choose from '../screens/noAuth/choose/index';
 
 const NoAuthStack = createStackNavigator();
 
@@ -14,6 +15,11 @@ const NoAuthRoutes = () => (
       options={{headerShown: false}}
       name="Home"
       component={Home}
+    />
+    <NoAuthStack.Screen
+      options={{headerShown: false}}
+      name="Choose"
+      component={Choose}
     />
     <NoAuthStack.Screen
       options={{headerShown: false}}

@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Picker} from '@react-native-community/picker';
 import Input from '../../../unform/input';
 
@@ -10,8 +9,10 @@ import {
   SmallText,
   s2,
   s1,
-  ButtonIcon,
+  ButtonLight,
+  Button,
 } from '../../../stylesShared';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const MarginPhoto = styled.View`
   height: ${w * 36}px;
@@ -24,62 +25,36 @@ export const MarginPhoto = styled.View`
   border-color: #fff;
 `;
 
-export const HeaderProfile = styled.View`
-  justify-content: space-between;
-  flex-direction: row;
-  width: 100%;
-  height: ${h * 10}px;
-  padding-top: 3.5%;
-  padding-right: 2%;
-  padding-left: 2%;
-`;
-
 export const FormAddService = styled(ViewForm)`
   padding: ${h * 2}px ${w * 0}px ${h * 2}px ${w * 0}px;
-  margin: 0% 5% 3% 5%;
-  elevation: 10;
+  margin: 3% 3% 3% 3%;
   border-width: 1px;
   border-color: #999;
 `;
 
 export const MediumText = styled(SmallText)`
-  font-size: ${s2}px;
-  text-align: center;
-  margin-left: 5%;
-  color: #000044;
-`;
-
-export const ButtonDateTime = styled(ButtonIcon)`
-  width: 40%;
-  height: 80%;
-  elevation: 10;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 0px ${w * 0}px ${h * 0}px ${w * 0}px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-`;
-
-export const SuportDateTime = styled.View`
-  width: 100%;
-  height: ${h * 8}px;
-  margin-top: 6%;
-  background-color: #fff;
-  flex-direction: row;
-  justify-content: space-around;
+  font-size: ${s2 + 1}px;
+  width: 80%;
+  margin-top: 9%;
+  padding-left: 2%;
+  font-family: 'SF Pro Display Regular';
+  border-bottom-width: 1px;
+  border-color: #000044;
+  padding-bottom: 2%;
+  text-align: left;
+  color: #000000;
 `;
 
 export const ViewPicker = styled.View`
   width: 80%;
   height: ${h * 6}px;
-  border-width: 2px;
+  border-bottom-width: 1px;
   border-color: #000044;
   border-radius: 8px;
   align-items: center;
   justify-content: center;
   margin-bottom: 4%;
-  margin-top: 4%;
+  margin-top: 10%;
 `;
 
 export const PickerLocal = styled(ViewPicker)`
@@ -88,20 +63,12 @@ export const PickerLocal = styled(ViewPicker)`
 
 export const ViewPickerLocal = styled.View`
   flex-direction: row;
-  width: 85%;
+  width: 95%;
+  align-self: center;
   margin-right: 1%;
   justify-content: center;
   align-items: center;
 `;
-
-export const TextFooter = styled(MediumText)`
-  margin-top: 8%;
-  font-size: ${s1}px;
-  color: #000084;
-  margin-bottom: -3%;
-`;
-
-export const DateTimePicker = styled(DateTimePickerModal)``;
 
 export const PickerStyled = styled(Picker)`
   height: 100%;
@@ -111,23 +78,12 @@ export const PickerStyled = styled(Picker)`
 export const ButtonIconAddress = styled.TouchableOpacity`
   width: 9%;
   margin-left: 3%;
-`;
-
-export const InputPrice = styled(Input)`
-  width: 80%;
-  margin-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  background-color: transparent;
-  color: #000054;
-  font-size: ${s2}px;
-  margin-right: -20%;
-  font-family: 'SF Pro Display Bold';
+  margin-top: 8%;
 `;
 
 export const InputDescription = styled(Input)`
   height: ${h * 12}px;
-  width: 85%;
+  width: 90%;
   font-family: 'SF Pro Display Regular';
   font-size: ${s1}px;
   margin-top: 2%;
@@ -146,4 +102,26 @@ export const InputDescription = styled(Input)`
 
 export const ScrollBlue = styled.ScrollView`
   background-color: #000054;
+`;
+
+export const LinearBackground = styled(LinearGradient)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
+
+export const ViewButtons = styled.View`
+  width: 100%;
+  position: absolute;
+  bottom: 2%;
+  flex-direction: row;
+  justify-content: space-around;
+`;
+
+export const ButtonNext = styled(Button)`
+  width: 45%;
+`;
+
+export const ButtonBack = styled(ButtonLight)`
+  width: 45%;
 `;

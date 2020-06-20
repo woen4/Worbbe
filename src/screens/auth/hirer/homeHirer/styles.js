@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {w, h, s2, wh, s1, Container} from '../../../stylesShared';
+import {w, h, s2, s3, s1, Container} from '../../../stylesShared';
 
 export const ViewCarousel = styled.View`
   flex-direction: row;
@@ -27,11 +27,9 @@ export const ContainerService = styled.TouchableOpacity`
   elevation: 10;
   border-radius: 10px;
   align-items: center;
-  height: ${wh * 25}px;
-  margin-top: 3%;
-  margin-bottom: 5%;
-  margin-left: 3%;
-  width: ${wh * 36.5}px;
+  flex: 1;
+  margin-bottom: 6%;
+  margin-horizontal: 2%;
 `;
 
 export const Title = styled.Text`
@@ -45,8 +43,7 @@ export const SubTitle = styled(Title)`
 `;
 
 export const ViewRowBetween = styled.View`
-  width: 90%;
-  height: 20%;
+  flex: 1;
   flex-direction: row;
   justify-content: space-around;
   margin-top: 5%;
@@ -63,6 +60,10 @@ export const ViewCalendar = styled.View`
 
 export const ButtonChat = styled.TouchableOpacity`
   flex: 1;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2%;
+  justify-content: center;
 `;
 
 export const ViewDot = styled.View`
@@ -78,4 +79,36 @@ export const TextDot = styled.Text`
   font-size: 11px;
   margin-horizontal: 1px;
   text-align: center;
+`;
+
+export const ButtonAddService = styled.TouchableOpacity`
+  width: 95%;
+  align-self: center;
+  elevation: 7;
+  background-color: #fff;
+  border-radius: 10px;
+  height: ${h * 6}px;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TextEmpty1 = styled.Text`
+  font-family: 'SF Pro Display Bold';
+  font-size: ${s3}px;
+  position: absolute;
+  top: 56%;
+  left: 10%;
+  color: #000084;
+`;
+
+export const TextEmpty2 = styled.Text`
+  font-family: 'SF Pro Display Bold';
+  font-size: ${s3}px;
+  top: 87%;
+  left: 45%;
+  text-align: right;
+  position: absolute;
+  color: #000084;
 `;

@@ -3,34 +3,27 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Card} from '../../components/unitCard/index';
 import {useAuth} from '../../../../contexts/authContext';
 import {deleteAddress} from '../../../../backend/firebase/addressesFB';
+import GPSimage from '../../../../assets/GPSimage.png';
+import LottieView from 'lottie-react-native';
+import {TextEmpty1, TextEmpty2} from './styles';
 import {
   Container,
   ButtonIcon,
   TitleHeader,
   Header,
+  w,
+  h,
 } from '../../../stylesShared';
 
-import {FlatList, PermissionsAndroid} from 'react-native';
+import {FlatList, PermissionsAndroid, Image} from 'react-native';
 
 export default function Addresses({navigation}) {
-  const {user, refresh} = useAuth();
+  const {addressesHirer, getAddresses} = useAuth();
   const [addresses, setAddresses] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
-
-  async function getAddresses() {
-    const userAddresses = user.addresses;
-
-    let arrayGet = [];
-    let count = 0;
-    userAddresses.forEach((address) => {
-      arrayGet.push(address._data);
-      arrayGet[count].id = userAddresses[count]._ref._documentPath._parts[3];
-      count = count + 1;
-    });
-    setAddresses(arrayGet);
-  }
+  console.log(addressesHirer);
   useEffect(() => {
-    getAddresses();
+    setAddresses(addressesHirer);
   }, []);
 
   const remove = async (id) => {
@@ -42,8 +35,9 @@ export default function Addresses({navigation}) {
     }
     const newAddresses = addresses.filter(filter);
     setAddresses(newAddresses);
-    refresh();
+
     setRefreshList(!refreshList);
+    await getAddresses();
   };
 
   function AddAddress() {
@@ -69,6 +63,7 @@ export default function Addresses({navigation}) {
       <FlatList
         showsVerticalScrollIndicator={false}
         refreshing={false}
+        ListEmptyComponent={EmptyComponent()}
         data={addresses}
         onRefresh={refreshList}
         keyExtractor={(item) => item.id}
@@ -77,5 +72,25 @@ export default function Addresses({navigation}) {
         )}
       />
     </Container>
+  );
+}
+
+function EmptyComponent() {
+  return (
+    <>
+      <TextEmpty1>Defina um endereço{'\n'}agora</TextEmpty1>
+      <Image
+        resizeMode="contain"
+        style={{
+          alignSelf: 'center',
+          width: w * 80,
+          height: h * 80,
+        }}
+        source={GPSimage}
+        autoPlay
+        loop
+      />
+      <TextEmpty2>E peça já seus{'\n'} serviços</TextEmpty2>
+    </>
   );
 }

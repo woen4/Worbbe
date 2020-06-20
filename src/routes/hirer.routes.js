@@ -6,10 +6,12 @@ import Chat from '../screens/auth/chat/index';
 import HomeHirer from '../screens/auth/hirer/homeHirer/index';
 import ProfileHirer from '../screens/auth/hirer/profile/index';
 import Addresses from '../screens/auth/hirer/addresses/index';
-import AddService from '../screens/auth/hirer/addService/index';
+import AddService from '../screens/auth/hirer/addService/chooseType';
+
+import DefineDetails from '../screens/auth/hirer/addService/defineDetails';
 import AddAddressMap from '../screens/auth/hirer/addresses/addAdressMap';
 
-import DetailsService from '../screens/auth/detailsService/hirer';
+import DetailsService from '../screens/auth/hirer/detailsService/index';
 import Help from '../screens/auth/help/index';
 
 const HirerStack = createStackNavigator();
@@ -44,6 +46,12 @@ const AuthRoutes = () => (
     <HirerStack.Screen
       name="AddService"
       component={AddService}
+      options={{headerShown: false}}
+    />
+
+    <HirerStack.Screen
+      name="DefineDetails"
+      component={DefineDetails}
       options={{headerShown: false}}
     />
     <HirerStack.Screen

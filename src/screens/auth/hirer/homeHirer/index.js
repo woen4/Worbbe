@@ -4,7 +4,8 @@ import foto from '../../../../assets/foto.jpg';
 import UnitService from './unitService';
 import Carousel from './carousel';
 import {getServices} from '../../../../backend/firebase/homeHirerFB';
-
+import agreement from '../../../../assets/agreement.png';
+import {TextEmpty1, TextEmpty2} from './styles';
 import {
   TitleHeader,
   Header,
@@ -14,8 +15,10 @@ import {
   ItemMenu,
   TextItemMenu,
   DividerMenu,
+  w,
+  h,
 } from '../../../stylesShared';
-import {FlatList, RefreshControl} from 'react-native';
+import {FlatList, RefreshControl, Image} from 'react-native';
 
 export default function HomeHirer({navigation}) {
   const [services, setServices] = useState([]);
@@ -81,9 +84,6 @@ export default function HomeHirer({navigation}) {
   return (
     <>
       <Header>
-        <ButtonIcon onPress={() => navigation.navigate('AddService')}>
-          <Icon name="md-add-circle-outline" size={26} color="#000084" />
-        </ButtonIcon>
         <TitleHeader>WorkGrid</TitleHeader>
         <ButtonIcon onPress={renderMenu}>
           <Icon name="ios-more" size={29} color="#000084" />
@@ -94,6 +94,7 @@ export default function HomeHirer({navigation}) {
         <FlatList
           numColumns={2}
           ListHeaderComponent={Carousel}
+          ListEmptyComponent={EmptyComponent}
           refreshControl={
             <RefreshControl
               colors={['#000099']}
@@ -108,6 +109,27 @@ export default function HomeHirer({navigation}) {
         />
         {menu}
       </Container>
+    </>
+  );
+}
+
+function EmptyComponent() {
+  return (
+    <>
+      <TextEmpty1>O que está{'\n'}esperando?</TextEmpty1>
+      <Image
+        resizeMode="contain"
+        style={{
+          marginLeft: '-16%',
+          alignSelf: 'center',
+          width: w * 65,
+          height: h * 50,
+        }}
+        source={agreement}
+        autoPlay
+        loop
+      />
+      <TextEmpty2>Peça seu{'\n'}primeiro serviço!</TextEmpty2>
     </>
   );
 }

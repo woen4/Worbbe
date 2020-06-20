@@ -5,7 +5,7 @@ import FeedRequests from '../screens/auth/hired/feedRequests/index';
 import ListServices from '../screens/auth/hired/listServices/index';
 import ProfileHired from '../screens/auth/hired/profile/index';
 import Chat from '../screens/auth/chat/index';
-import DetailsService from '../screens/auth/detailsService/hired';
+//import DetailsService from '../screens/auth/detailsService/hired';
 import Help from '../screens/auth/help/index';
 
 const HiredStack = createStackNavigator();
@@ -31,12 +31,6 @@ const AuthRoutes = () => (
     <HiredStack.Screen
       name="Chat"
       component={Chat}
-      options={{headerShown: false}}
-    />
-
-    <HiredStack.Screen
-      name="DetailsService"
-      component={DetailsService}
       options={{headerShown: false}}
     />
     <HiredStack.Screen

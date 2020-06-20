@@ -1,12 +1,11 @@
 import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
-import Modal from 'react-native-modal';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 export const w = Dimensions.get('window').width / 100;
 export const h = Dimensions.get('window').height / 100;
-export const wh = ((w * h) / 10) * 1.618;
+export const wh = w * h * 0.1 + 2;
 export const s5 = wh * 6.2;
 export const s4 = wh * 5.4;
 export const s3 = wh * 4.6;

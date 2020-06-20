@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Button, h, s1} from '../../../stylesShared';
+import {Button, h, s1, s3} from '../../../stylesShared';
 import Modal from 'react-native-modal';
 import Input from '../../../unform/input';
 
@@ -56,4 +56,23 @@ export const InputSimple = styled(Input)`
   margin-top: 0%;
   padding-bottom: 0%;
   font-family: 'SF Pro Display Regular';
+`;
+
+export const TextEmpty1 = styled.Text`
+  font-family: 'SF Pro Display Bold';
+  font-size: ${s3}px;
+  position: absolute;
+  top: 25%;
+  left: 17%;
+  color: #000084;
+`;
+
+export const TextEmpty2 = styled.Text`
+  font-family: 'SF Pro Display Bold';
+  font-size: ${s3}px;
+  top: 70%;
+  left: 45%;
+  text-align: right;
+  position: absolute;
+  color: #000084;
 `;

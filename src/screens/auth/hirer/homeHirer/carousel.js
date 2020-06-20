@@ -33,6 +33,8 @@ const itemsCarousel = [
       'https://image.freepik.com/vetores-gratis/banner-isometrica-horizontal-on-line-profissional-servico-de-encanador-com-dois-tecnicos-de-fixacao-ilustracao-em-vetor-pia-banheiro_1284-30481.jpg',
   },
 ];
+import {useNavigation} from '@react-navigation/native';
+import {TextButtonLight} from '../../../stylesShared';
 
 import {
   ViewCarousel,
@@ -40,12 +42,13 @@ import {
   ViewDot,
   ItemCarousel,
   TextDot,
+  ButtonAddService,
 } from './styles';
 
 function Carousel() {
   const [active, setActive] = useState(0);
   const {width} = Dimensions.get('window');
-
+  const navigation = useNavigation();
   const changeDot = ({nativeEvent}) => {
     const slide = Math.ceil(
       nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
@@ -82,6 +85,9 @@ function Carousel() {
           ))}
         </ViewDot>
       </ViewCarousel>
+      <ButtonAddService onPress={() => navigation.navigate('AddService')}>
+        <TextButtonLight>Solicitar serviço</TextButtonLight>
+      </ButtonAddService>
     </>
   );
 }

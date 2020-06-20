@@ -1,17 +1,5 @@
 import styled from 'styled-components/native';
-import {w, h, wh, s1, ViewCenter, PhotoProfile} from '../../stylesShared';
-
-export const ViewDateTime = styled.View`
-  width: 45%;
-  height: 80%;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 0px ${w * 0}px ${h * 0}px ${w * 0}px;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-direction: row;
-  elevation: 10;
-`;
+import {w, h, wh, s1, ViewCenter, PhotoProfile} from '../../../stylesShared';
 
 export const ViewText = styled.View`
   margin: 2% 0% 8% 0;
@@ -26,21 +14,11 @@ export const TextSimple = styled.Text`
   font-family: 'SF Pro Display Regular';
 `;
 
-export const SuportDateTime = styled.View`
-  width: 100%;
-  height: ${h * 8}px;
-  margin-top: 1%;
-  background-color: #fff;
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
 export const ContainerDetails = styled.View`
   width: 100%;
   height: 100%;
   padding: 5% 5% 5% 5%;
 `;
-
 
 export const TextDescription = styled.Text`
   height: ${h * 12}px;

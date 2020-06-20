@@ -4,8 +4,8 @@ import firestore from '@react-native-firebase/firestore';
 const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(undefined);
-
+  const [user, setUser] = useState();
+  const [addressesHirer, setAddressesHirer] = useState();
   useEffect(() => {
     verifyLoged();
   }, []);
@@ -13,11 +13,19 @@ export const AuthProvider = ({children}) => {
   async function verifyLoged() {
     const userAuth = auth().currentUser;
     if (userAuth === null || userAuth === undefined) {
-      const response = await firestore()
+      setUser(null);
+    } else {
+      const responseUser = await firestore()
         .collection('Users')
         .doc(userAuth.uid)
         .get();
-      setUser(response._data);
+      if (responseUser._data.disabled === true) {
+        setUser(null);
+      } else {
+        console.log('chegou');
+        await getAddresses();
+        setUser(responseUser._data);
+      }
     }
     /*
     if (response != null) {
@@ -28,12 +36,12 @@ export const AuthProvider = ({children}) => {
       if (responseRead._data.disabled === true) {
         setUser(null);
       } else {
-        const responseReadSub = await firestore()
+        const responseAddresses = await firestore()
           .collection('Users')
           .doc(response.uid)
           .collection('addresses')
           .get();
-        responseRead._data.addresses = responseReadSub._docs;
+        responseRead._data.addresses = responseAddresses._docs;
         setUser(responseRead._data);
       }
     } else {
@@ -43,19 +51,22 @@ export const AuthProvider = ({children}) => {
 
   async function fillContext(data) {
     const response = await logIn(data);
-
-    if (response === undefined || response === null) {
-      const uid = auth().currentUser.uid;
-      const responseRead = await firestore().collection('Users').doc(uid).get();
-      if (responseRead._data.disabled === true) {
+    if (typeof response !== 'string') {
+      console.log(response);
+      const uid = response.user.uid;
+      const responseUser = await firestore().collection('Users').doc(uid).get();
+      if (responseUser._data.disabled === true) {
         setUser(null);
         return 'Conta Desativada';
       } else {
-        setUser(responseRead._data);
+        setUser(responseUser._data);
+        console.log('chegou');
+        await getAddresses();
         return 'Usuário Logado';
       }
+    } else {
+      return response;
     }
-    return response;
   }
 
   async function refresh() {
@@ -68,9 +79,36 @@ export const AuthProvider = ({children}) => {
     return response;
   }
 
+  async function getAddresses() {
+    const uid = auth().currentUser.uid;
+
+    const response = await firestore()
+      .collection('Users')
+      .doc(uid)
+      .collection('addresses')
+      .get();
+    let count = 0;
+
+    const arrayAddresses = [];
+    response._docs.forEach((address) => {
+      arrayAddresses.push(address._data);
+      arrayAddresses[count].id =
+        response._docs[count]._ref._documentPath._parts[3];
+      count = count + 1;
+    });
+    setAddressesHirer(arrayAddresses);
+  }
+
   return (
     <AuthContext.Provider
-      value={{user: user, fillContext, deleteContext, refresh}}>
+      value={{
+        user: user,
+        fillContext,
+        deleteContext,
+        refresh,
+        getAddresses,
+        addressesHirer,
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -80,22 +118,21 @@ export function useAuth() {
 }
 
 async function logIn(data) {
-  await auth()
+  let response;
+  response = await auth()
     .signInWithEmailAndPassword(data.email, data.password)
-    .then(() => {
-      return;
-    })
     .catch((error) => {
       if (error.code === 'auth/wrong-password') {
-        return 'Email ou senha incorretos';
+        response = 'Email ou senha incorretos';
       } else if (error.code === 'auth/user-not-found') {
-        return 'Conta inexistente';
+        response = 'Conta inexistente';
       } else if (error.code === 'auth/invalid-email') {
-        return 'Email inválido';
+        response = 'Email inválido';
       } else {
         console.error(error);
       }
     });
+  return response;
 }
 
 async function logOut() {
