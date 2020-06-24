@@ -9,8 +9,6 @@ import {useAuth} from '../../../../contexts/authContext';
 import {validateAddService} from '../../../../backend/validations';
 import ToastDefault from '../../../toasts';
 import {CreateService} from '../../../../backend/firebase/addServiceFB';
-import {LottieLoading} from '../../../lottieLoading';
-import ServiceLottie from '../../../../assets/serviceLottie.json';
 
 import {
   FormAddService,
@@ -34,7 +32,7 @@ import {
 } from '../../../stylesShared';
 
 export default function DefineDetails({route, navigation}) {
-  const {user, getAddresses} = useAuth();
+  const {user, addressesHirer} = useAuth();
   const [modalBot, setModalBot] = useState(false);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [valueDateTime, setValueDateTime] = useState('Data e horário');
@@ -46,12 +44,13 @@ export default function DefineDetails({route, navigation}) {
     const data = {};
     setModalBot(false);
     data.nameHirer = user.name;
-    data.location = addresses[addressIndex].coordinates;
+    data.location = addressesHirer[addressIndex].coordinates;
     data.tag = indexes.data.tag;
     data.field = indexes.data.field;
     data.subField = indexes.data.subField;
     data.description = description;
     data.dateTime = valueDateTime;
+    data.avatarHirer = user.avatarUrl;
     const response = await CreateService(data);
     if (response === undefined) {
       ToastDefault('Serviço solicitado');
@@ -68,7 +67,7 @@ export default function DefineDetails({route, navigation}) {
     formRef.current.submitForm();
     data.description = description;
     data.dateTime = valueDateTime;
-    data.location = addresses.length;
+    data.location = addressesHirer.length;
     const responseValidate = validateAddService(data);
     if (responseValidate === undefined) {
       setModalBot(true);
@@ -81,14 +80,6 @@ export default function DefineDetails({route, navigation}) {
     setPickerVisible(!pickerVisible);
     setValueDateTime(formatDate(Date));
   }
-  const [addresses, setAddresses] = useState([]);
-  async function defineAddresses() {
-    const array = await getAddresses();
-    setAddresses(array);
-  }
-  useEffect(() => {
-    defineAddresses();
-  }, []);
 
   const [addressIndex, setAddressIndex] = useState(0);
 
@@ -108,10 +99,11 @@ export default function DefineDetails({route, navigation}) {
           <PickerLocal>
             <PickerStyled
               mode="dropdown"
+              key={0}
               selectedValue={addressIndex}
               onValueChange={(itemValue) => setAddressIndex(itemValue)}>
-              {addresses.map((item) => (
-                <Picker.Item label={item.name} value={item.id} />
+              {addressesHirer.map((item) => (
+                <Picker.Item label={item.name} value={item.id} key={item.id} />
               ))}
             </PickerStyled>
           </PickerLocal>

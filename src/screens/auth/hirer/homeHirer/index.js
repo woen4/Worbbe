@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import foto from '../../../../assets/foto.jpg';
 import UnitService from './unitService';
 import Carousel from './carousel';
 import {getServices} from '../../../../backend/firebase/homeHirerFB';
@@ -23,15 +22,12 @@ import {FlatList, RefreshControl, Image} from 'react-native';
 export default function HomeHirer({navigation}) {
   const [services, setServices] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
   async function fillServices() {
     const response = await getServices();
     let count = 0;
     const array = [];
     response.forEach((item) => {
       array.push(item._data);
-      array[count].id = count;
-      count = count + 1;
     });
     setServices(array);
   }
@@ -84,7 +80,7 @@ export default function HomeHirer({navigation}) {
   return (
     <>
       <Header>
-        <TitleHeader>WorkGrid</TitleHeader>
+        <TitleHeader>Worbbe</TitleHeader>
         <ButtonIcon onPress={renderMenu}>
           <Icon name="ios-more" size={29} color="#000084" />
         </ButtonIcon>
@@ -104,7 +100,7 @@ export default function HomeHirer({navigation}) {
           }
           showsVerticalScrollIndicator={false}
           data={services}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.serviceID}
           renderItem={({item}) => <UnitService item={item} />}
         />
         {menu}

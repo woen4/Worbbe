@@ -45,12 +45,11 @@ export const IconMateriall = styled(MateriallIcon)`
 export const TextInput = styled.TextInput`
   border-radius: 40px;
   height: ${h * 6}px;
-  padding-left: 40px;
+  padding-left: ${w * 9}px;
   width: 92%;
   color: #fff;
-  padding-bottom: 8px;
   font-size: ${s2}px;
-  text-align-vertical: bottom;
+  text-align-vertical: center;
   margin-bottom: 4%;
   font-family: 'SF Pro Display Bold';
   background-color: 'rgba(0, 0, 131, 0.5)';

@@ -35,7 +35,7 @@ export default function ProfileHired({navigation}) {
   const [editableInputs, setEditableInputs] = useState(false);
   const [icon, setIcon] = useState('md-create');
   const formRef = useRef(null);
-
+  console.log(user);
   async function saveUpdate(data) {
     if (validateProfile(data) === true) {
       setModalVisible(true);

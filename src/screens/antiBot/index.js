@@ -50,7 +50,9 @@ export default function AntiBotModal({visible, confirmBot}) {
         <ViewRow>
           {antiBotData.expression.map((item) => {
             return (
-              <Text style={{color: item.color, fontSize: item.size}}>
+              <Text
+                key={Math.random() * 130}
+                style={{color: item.color, fontSize: item.size}}>
                 {item.caracter}
               </Text>
             );

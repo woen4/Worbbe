@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import service from '../../../assets/service.jpeg';
-import logo from '../../../assets/LogoWG.png';
+import logo from '../../../assets/LogoWGwithoutBorder.png';
 import {TitleCards, ImgCard, ScrollCards, Logo, ViewImage} from './styles';
 import {Container} from '../../stylesShared';
 import {ScrollView, PermissionsAndroid} from 'react-native';

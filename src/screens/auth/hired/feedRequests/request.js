@@ -1,51 +1,51 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import {idToName} from '../../idToName';
 import {ButtonLight, TextButtonLight} from '../../../stylesShared';
 import {
   ViewRequest,
   ViewDetails,
-  ViewUnitDetails,
   TypeService,
   NameHirer,
   PhotoHirer,
   TextDetails,
-  ViewPrice,
   TextDescription,
-  Divider,
+  ViewRow,
 } from './styles';
 
-export default function request({service}) {
+export default function request({service, acceptRequest}) {
+  const date = service.dateTime.substring(0, 8);
+  const time = service.dateTime.substring(14, 19);
+  const names = idToName(service.field, service.subField);
+
   return (
     <ViewRequest>
-      <TypeService>{service.Type}</TypeService>
-      <NameHirer>{service.NameHirer}</NameHirer>
-      <PhotoHirer source={service.PhotoHirer} />
+      <TypeService>{names.subField}</TypeService>
+      <NameHirer>{service.nameHirer}</NameHirer>
+      <PhotoHirer source={{uri: service.avatarHirer}} />
       <ViewDetails>
-        <ViewUnitDetails>
+        <ViewRow>
           <Icon name="map-marker-distance" size={25} color="#000084" />
-          <TextDetails>{service.Distance}</TextDetails>
-        </ViewUnitDetails>
-        <ViewUnitDetails>
+          <TextDetails>00</TextDetails>
+        </ViewRow>
+        <ViewRow>
           <Icon name="calendar" size={24} color="#000084" />
-          <TextDetails>{service.Date}</TextDetails>
-        </ViewUnitDetails>
-        <ViewUnitDetails>
+          <TextDetails>{date}</TextDetails>
+        </ViewRow>
+        <ViewRow>
           <Icon name="timer" size={22} color="#000084" />
-          <TextDetails>{service.Time}</TextDetails>
-        </ViewUnitDetails>
+          <TextDetails>{time}</TextDetails>
+        </ViewRow>
       </ViewDetails>
       <TextDescription multiline={true} autoCorrect={true}>
-        {service.Description}{' '}
+        {service.description}{' '}
       </TextDescription>
-      <ButtonLight>
+      <ButtonLight
+        onPress={() => {
+          acceptRequest(service.serviceID);
+        }}>
         <TextButtonLight>Aceitar serviço</TextButtonLight>
       </ButtonLight>
-      <ViewPrice>
-        <Icon2 name="money-bill-wave" size={22} color="#000084" />
-        <TextDetails>${service.Price}</TextDetails>
-      </ViewPrice>
-      <Divider />
     </ViewRequest>
   );
 }

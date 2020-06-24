@@ -39,8 +39,7 @@ export default function Home({navigation}) {
   async function handleLogin(data) {
     if (validateLogin(data) === true) {
       setModalLoading(true);
-      const response = await fillContext(data);
-      ToastDefault(response);
+      await fillContext(data);
       setModalLoading(false);
     } else {
       ToastDefault(validateLogin(data));

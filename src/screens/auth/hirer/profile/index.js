@@ -50,8 +50,7 @@ export default function ProfileHirer({navigation}) {
   }
 
   async function logOut() {
-    const response = await deleteContext();
-    ToastDefault(response);
+    await deleteContext();
   }
 
   function imagePickerCallback(data) {

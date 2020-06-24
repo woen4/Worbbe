@@ -6,7 +6,7 @@ import HiredRoutes from './hired.routes';
 
 const Routes = () => {
   const {user} = useAuth();
-
+  console.log(user);
   if (user != null) {
     if (user.isClient === true) {
       return <HirerRoutes />;

@@ -21,7 +21,6 @@ export default function Addresses({navigation}) {
   const {addressesHirer, getAddresses} = useAuth();
   const [addresses, setAddresses] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
-  console.log(addressesHirer);
   useEffect(() => {
     setAddresses(addressesHirer);
   }, []);

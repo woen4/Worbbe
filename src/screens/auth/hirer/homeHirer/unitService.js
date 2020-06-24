@@ -15,7 +15,6 @@ import {
 import {SmallText} from '../../../stylesShared';
 
 function UnitService({item}) {
-  console.log(item.field);
   const navigation = useNavigation();
   const nameService = idToName(item.field, item.subField);
   const field = nameService.field;
@@ -29,7 +28,8 @@ function UnitService({item}) {
         <SmallText>{item.dateTime}</SmallText>
       </ViewCalendar>
       <ViewRowBetween>
-        <ButtonChat onPress={() => navigation.navigate('Chat')}>
+        <ButtonChat
+          onPress={() => navigation.navigate('ListHireds', item.hiredsData)}>
           <Icon name="ios-chatboxes" size={25} color="#000084" />
         </ButtonChat>
       </ViewRowBetween>

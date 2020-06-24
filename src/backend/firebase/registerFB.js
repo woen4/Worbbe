@@ -51,8 +51,7 @@ export async function createUser(data) {
         phone: data.phone,
         isClient: isClient,
         disabled: !isClient,
-        avatarUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/1024px-Missing_avatar.svg.png',
+        avatarUrl: data.avatarUrl,
         addressesCount: 0,
       };
       await firestore().collection('Users').doc(uid).set(doc);

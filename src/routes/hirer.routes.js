@@ -7,7 +7,7 @@ import HomeHirer from '../screens/auth/hirer/homeHirer/index';
 import ProfileHirer from '../screens/auth/hirer/profile/index';
 import Addresses from '../screens/auth/hirer/addresses/index';
 import AddService from '../screens/auth/hirer/addService/chooseType';
-
+import ListHireds from '../screens/auth/hirer/listHireds/index';
 import DefineDetails from '../screens/auth/hirer/addService/defineDetails';
 import AddAddressMap from '../screens/auth/hirer/addresses/addAdressMap';
 
@@ -68,6 +68,11 @@ const AuthRoutes = () => (
     <HirerStack.Screen
       name="Help"
       component={Help}
+      options={{headerShown: false}}
+    />
+    <HirerStack.Screen
+      name="ListHireds"
+      component={ListHireds}
       options={{headerShown: false}}
     />
   </HirerStack.Navigator>

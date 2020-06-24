@@ -1,4 +1,5 @@
 import React, {createContext, useState, useEffect, useContext} from 'react';
+import ToastDefault from '../screens/toasts';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 const AuthContext = createContext({});
@@ -22,7 +23,7 @@ export const AuthProvider = ({children}) => {
       if (responseUser._data.disabled === true) {
         setUser(null);
       } else {
-        console.log('chegou');
+        ('chegou');
         await getAddresses();
         setUser(responseUser._data);
       }
@@ -51,16 +52,15 @@ export const AuthProvider = ({children}) => {
 
   async function fillContext(data) {
     const response = await logIn(data);
-    if (typeof response !== 'string') {
-      console.log(response);
+    if (response !== undefined) {
       const uid = response.user.uid;
+
       const responseUser = await firestore().collection('Users').doc(uid).get();
       if (responseUser._data.disabled === true) {
         setUser(null);
         return 'Conta Desativada';
       } else {
         setUser(responseUser._data);
-        console.log('chegou');
         await getAddresses();
         return 'Usuário Logado';
       }
@@ -118,18 +118,19 @@ export function useAuth() {
 }
 
 async function logIn(data) {
-  let response;
-  response = await auth()
+  const response = await auth()
     .signInWithEmailAndPassword(data.email, data.password)
     .catch((error) => {
       if (error.code === 'auth/wrong-password') {
-        response = 'Email ou senha incorretos';
+        ToastDefault('Email ou senha incorretos');
       } else if (error.code === 'auth/user-not-found') {
-        response = 'Conta inexistente';
+        ToastDefault('Conta inexistente');
       } else if (error.code === 'auth/invalid-email') {
-        response = 'Email inválido';
+        ToastDefault('Email inválido');
+      } else if (error.code === 'auth/user-disabled') {
+        ToastDefault('Usuário desabilitado');
       } else {
-        console.error(error);
+        ToastDefault('Dispotivo bloqueado por atividade incomum');
       }
     });
   return response;
@@ -138,8 +139,8 @@ async function logIn(data) {
 async function logOut() {
   try {
     await auth().signOut();
-    return 'Usuário deslogado!';
+    ToastDefault('Usuário deslogado!');
   } catch {
-    return 'Erro ao deslogar';
+    ToastDefault('Erro ao deslogar');
   }
 }

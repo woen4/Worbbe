@@ -9,5 +9,10 @@ export async function getServices() {
     .where('emailHirer', '==', user.email)
     .get();
 
+  let i;
+  for (i = 0; i < response._docs.length; i++) {
+    response._docs[i]._data.serviceID =
+      response._docs[i]._ref._documentPath._parts[1];
+  }
   return response._docs;
 }

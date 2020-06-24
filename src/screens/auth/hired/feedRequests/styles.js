@@ -1,32 +1,23 @@
 import styled from 'styled-components/native';
-import {s1, s2, s3, s4, s5, h, w} from '../../../stylesShared';
+import {s1, s2, s3, s5, h, w, wh} from '../../../stylesShared';
 
 //View
 export const ViewRequest = styled.View`
   flex: 1;
   align-items: center;
+  padding-bottom: 2%;
 `;
 
 export const ViewDetails = styled.View`
-  height: 5%;
-  width: 90%;
+  height: 6%;
+  width: 85%;
+  padding-horizontal: 1%;
+  align-self: center;
   justify-content: space-between;
   margin-top: 7%;
   margin-bottom: 5%;
   flex-direction: row;
 `;
-
-export const ViewUnitDetails = styled.View`
-  width: 33%;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ViewPrice = styled(ViewUnitDetails)`
-  margin-top: ${h * 3}px;
-`;
-//
 
 //Text
 const Text = styled.Text`
@@ -51,8 +42,8 @@ export const TextDetails = styled(Text)`
 
 //Image
 export const PhotoHirer = styled.Image`
-  height: ${w * 35}px;
-  width: ${w * 35}px;
+  height: ${wh * 28}px;
+  width: ${wh * 28}px;
   border-radius: 100px;
   border-width: 0.5px;
   border-color: #000084;
@@ -74,10 +65,13 @@ export const TextDescription = styled.Text`
 `;
 
 export const Divider = styled.View`
-  height: ${h * 0.2}px;
-  elevation: 1;
-  margin-bottom: 4%;
+  height: ${h * 0.3}px;
+  margin-bottom: 3%;
   margin-top: 3%;
   background-color: #999;
   width: 100%;
+`;
+
+export const ViewRow = styled.View`
+  flex-direction: row;
 `;

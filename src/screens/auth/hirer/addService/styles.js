@@ -33,16 +33,16 @@ export const FormAddService = styled(ViewForm)`
 `;
 
 export const MediumText = styled(SmallText)`
-  font-size: ${s2 + 1}px;
+  font-size: ${s2}px;
   width: 80%;
   margin-top: 9%;
   padding-left: 2%;
-  font-family: 'SF Pro Display Regular';
+  font-family: 'SF Pro Display Bold';
   border-bottom-width: 1px;
   border-color: #000044;
   padding-bottom: 2%;
   text-align: left;
-  color: #000000;
+  color: #000064;
 `;
 
 export const ViewPicker = styled.View`

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Service from '../../components/unitService/index';
+import Service from './serviceCard';
 import foto from '../../../../assets/foto.jpg';
+import {getListServices} from '../../../../backend/firebase/listServicesFB';
 import {
   Container,
   ButtonIcon,
@@ -12,45 +13,14 @@ import {
 import {FlatList} from 'react-native';
 
 export default function ListService({navigation}) {
-  const ExamplePosts = [
-    {
-      id: '123',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam. ',
-      Time: '16:00',
-      Price: '50,00',
-    },
-    {
-      id: '323',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
-      Time: '16:00',
-      Price: '50,00',
-    },
-    {
-      id: '223',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
-      Time: '16:00',
-      Price: '50,00',
-    },
-  ];
-  let icons = ['check-circle-outline', 'chat'];
+  const [services, setServices] = useState([]);
+  async function fillListServices() {
+    const response = await getListServices();
+    setServices(response);
+  }
+  useEffect(() => {
+    fillListServices();
+  }, []);
 
   return (
     <Container>
@@ -67,15 +37,9 @@ export default function ListService({navigation}) {
       </Header>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={ExamplePosts}
+        data={services}
         keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-          <Service
-            nameResponsible={item.NameHirer}
-            service={item}
-            icon="chat"
-          />
-        )}
+        renderItem={({item}) => <Service service={item} />}
       />
     </Container>
   );

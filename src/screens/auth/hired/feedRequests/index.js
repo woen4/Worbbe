@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
-import foto from '../../../../assets/foto.jpg';
 import Request from './request';
-
+import {useAuth} from '../../../../contexts/authContext';
+import auth from '@react-native-firebase/auth';
+import {
+  getRequests,
+  acceptRequest,
+} from '../../../../backend/firebase/feedRequestsFB';
 import {
   Container,
   ButtonFloat,
@@ -17,47 +21,61 @@ import {
   MenuContainerLeft,
 } from '../../../stylesShared';
 
+import {Divider} from './styles';
+
 import {FlatList} from 'react-native';
 
 export default function FeedRequests({navigation}) {
-  let ExamplePosts = [
-    {
-      id: '123',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam. ',
-      Time: '16:00',
-      Price: '50,00',
-    },
-    {
-      id: '323',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
-      Time: '16:00',
-      Price: '50,00',
-    },
-    {
-      id: '223',
-      Type: 'Limpeza',
-      NameHirer: 'Kaio Woen',
-      PhotoHirer: foto,
-      Distance: '5km',
-      Date: '10/05/19',
-      Description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue tristique. Etiam tempor mollis lacus, vel fermentum ex dapibus et. Pellentesque sed iaculis mi, sit amet fermentum quam.',
-      Time: '16:00',
-      Price: '50,00',
-    },
-  ];
+  const {user} = useAuth();
+  let flag = false;
+  const [requests, setRequests] = useState();
+  const [refreshing, setRefreshing] = useState(true);
+
+  async function fillRequests() {
+    const response = await getRequests(user.fieldHired);
+    setRequests(filterRequests(response));
+  }
+
+  const handleAcceptRequest = async function (serviceID) {
+    if (flag === false) {
+      flag = true;
+      console.log('foi11111');
+      await acceptRequest(serviceID, user.name, user.avatarUrl);
+      let i;
+      const newRequests = requests;
+      for (i = 0; i < requests.length; i++) {
+        if (newRequests[i]._data.serviceID === serviceID) {
+          newRequests.splice(i, 1);
+        }
+      }
+      setRequests(newRequests);
+      setRefreshing(!refreshing);
+      flag = false;
+    }
+  };
+
+  const filterRequests = useCallback((requestsFunction) => {
+    const {email} = auth().currentUser;
+    const newRequests = [];
+    let i = 0,
+      j = 0;
+    for (i = 0; i < requestsFunction.length; i++) {
+      if (requestsFunction[i]._data.hireds.length !== 0) {
+        for (j = 0; j < requestsFunction[i]._data.hireds.length; j++) {
+          if (requestsFunction[i]._data.hireds[j] !== email) {
+            newRequests.push(requestsFunction[i]);
+          }
+        }
+      } else {
+        newRequests.push(requestsFunction[i]);
+      }
+    }
+    return newRequests;
+  }, []);
+
+  useEffect(() => {
+    fillRequests();
+  }, []);
 
   const [menu, setMenu] = useState(null);
   const [funnel, setFunnel] = useState(null);
@@ -114,7 +132,7 @@ export default function FeedRequests({navigation}) {
         <ButtonIcon onPress={renderMenuFunnel}>
           <Icon name="md-funnel" size={26} color="#000084" />
         </ButtonIcon>
-        <TitleHeader>WorkGrid</TitleHeader>
+        <TitleHeader>Worbbe</TitleHeader>
         <ButtonIcon onPress={renderMenu}>
           <Icon name="ios-more" size={29} color="#000084" />
         </ButtonIcon>
@@ -122,10 +140,16 @@ export default function FeedRequests({navigation}) {
 
       <Container onTouchEnd={closeMenus}>
         <FlatList
+          ItemSeparatorComponent={() => {
+            return <Divider />;
+          }}
+          refreshing={refreshing}
           showsVerticalScrollIndicator={false}
-          data={ExamplePosts}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) => <Request service={item} />}
+          data={requests}
+          keyExtractor={(item, index) => index}
+          renderItem={({item}) => (
+            <Request service={item._data} acceptRequest={handleAcceptRequest} />
+          )}
         />
 
         <ButtonFloat onPress={() => navigation.navigate('ListServices')}>

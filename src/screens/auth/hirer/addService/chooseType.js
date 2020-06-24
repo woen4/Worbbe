@@ -29,12 +29,12 @@ export default function AddService({navigation}) {
   useEffect(() => {
     setSubFields(
       optionsPicker[fieldIndex].subField.map((item) => (
-        <Picker.Item label={item.name} value={item.id} />
+        <Picker.Item label={item.name} value={item.id} key={item.id} />
       )),
     );
     setSpecifics(
       optionsPicker[fieldIndex].subField[subFieldIndex].specific.map((item) => (
-        <Picker.Item label={item.name} value={item.id} />
+        <Picker.Item label={item.name} value={item.id} key={item.id} />
       )),
     );
   }, [fieldIndex, subFieldIndex]);
@@ -134,7 +134,7 @@ export default function AddService({navigation}) {
             selectedValue={fieldIndex}
             onValueChange={(itemValue) => setFieldIndex(itemValue)}>
             {optionsPicker.map((item) => (
-              <Picker.Item label={item.name} value={item.id} />
+              <Picker.Item label={item.name} value={item.id} key={item.id} />
             ))}
           </PickerStyled>
         </ViewPicker>

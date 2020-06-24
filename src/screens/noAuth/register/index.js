@@ -37,21 +37,21 @@ export default function Register({route, navigation}) {
 
   async function handleRegister(data) {
     data.avatar = avatar;
-    //if (validateRegister(data) === true) {
-    setModalLoading(true);
-    data.isClient = isClient;
-    //data.avatar = avatar.path;
-    const response = await createUser(data);
-    setModalLoading(false);
-    if (response === false) {
-      ToastDefault('Cadastro realizado!');
-      navigation.navigate('Login');
+    if (validateRegister(data) === true) {
+      setModalLoading(true);
+      data.isClient = isClient;
+      data.avatar = avatar.path;
+      const response = await createUser(data);
+      setModalLoading(false);
+      if (response === false) {
+        ToastDefault('Cadastro realizado!');
+        navigation.navigate('Login');
+      } else {
+        ToastDefault(response);
+      }
     } else {
-      ToastDefault(response);
+      ToastDefault(validateRegister(data));
     }
-    // } else {
-    ToastDefault(validateRegister(data));
-    // }
   }
 
   function imagePickerCallback(data) {

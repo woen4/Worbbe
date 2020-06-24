@@ -27,9 +27,9 @@ export const ContainerService = styled.TouchableOpacity`
   elevation: 10;
   border-radius: 10px;
   align-items: center;
-  flex: 1;
+  width: ${w * 46}px;
   margin-bottom: 6%;
-  margin-horizontal: 2%;
+  margin-horizontal: ${w * 2}px;
 `;
 
 export const Title = styled.Text`
